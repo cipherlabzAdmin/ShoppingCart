@@ -1,0 +1,307 @@
+Developer Issue OR need to ask things will be here in the list.
+
+- Need to ask the number of banner need to show in all home pages.
+- For now as per HTML i put and also ask this to Prajit sir.
+- Need to check add to cart for Variation thing as similar as angular is done.
+- Need to discuss the UseCounter hook for product details page.
+- In Dashboard need to check and discussed the default address.
+- Need to add IF/ELSE in account/wallet for showing NODATA.
+
+
+- https://prnt.sc/55GeJ_4bkmKH -- add remix icon mobile menu and check active class
+- https://prnt.sc/Ft-w74d0UD4G - rome page
+- https://prnt.sc/XG71fhDGsheN
+- https://prnt.sc/OAQ9dGWJWudL - add left right arrow in view modal
+- https://prnt.sc/nsMH0jqZmsHB - paris page
+- https://prnt.sc/6B3iUoOXhCIk - remove dots in responsive paris page
+- https://prnt.sc/eP-04h_ssMv5 - paris page
+- https://prnt.sc/N8228dCf-TPe - tokyo page
+- https://prnt.sc/pJykwcgFekH3 - jyare product details ma koi pan content ni hoi to tyare title pan ni avse.
+
+
+- https://prnt.sc/eZW-iSOHwt7f - remove dots in osaka
+- https://prnt.sc/9vJbIFmqzEL5 - denver page
+- https://prnt.sc/9e7RDwQKCYsY - paris page
+- https://prnt.sc/rObFuTyUOJfh, https://prnt.sc/HBJGbEVGVOXj, https://prnt.sc/2hCjAjNEqSmj - tokyo page
+- https://prnt.sc/VIbN2a-QSjYS - tokyo page
+- https://prnt.sc/LS11ha4MVB2L, https://prnt.sc/FaFwuuDRumsp - osaka page
+- https://prnt.sc/jl4-qoBiJM0J - osaka
+- https://prnt.sc/YItihQGrpSIX - rome
+- https://prnt.sc/VHN_JzgpEOB8 - madrid
+- https://prnt.sc/NEIsIoPXDI40 - madrid
+- https://prnt.sc/a3dm6eP6Khiu - madrid, berlin, and denver
+- https://prnt.sc/-zFJmotGK_hn - denver
+- https://prnt.sc/kYWHmS0BvV5B - shop-left-sidebar
+- https://prnt.sc/gyaBZyFIxfe7 - shop collection pages
+- https://prnt.sc/2eHDmlZ5jDf- - and btn-md class remove product page
+- https://prnt.sc/WVYepuhTevRB - product page
+- https://prnt.sc/6L3_I9_XyitS
+- https://prnt.sc/UTE8gRcSivA3
+- https://prnt.sc/CQtKlV-h7y2H
+- https://prnt.sc/RkNvXtAeJzED
+
+
+New:-
+- check title on all pages and extra title box remove
+- https://prnt.sc/oArdB1yxR4V-
+- https://nimb.ws/IeVLzB -rome
+- https://prnt.sc/sv4ktAEHo8f5 - rome
+- https://prnt.sc/PB_u5WNNURiX - rome
+- https://nimb.ws/gZEUCY - madrid
+- https://prnt.sc/4inX9CSeIlK7 - madrid
+- https://prnt.sc/7qcOsSQFj320 - osaka
+- https://prnt.sc/GA2pU87wikIY - osaka
+- https://prnt.sc/dXJqeh19Cv0c - paris
+- https://prnt.sc/jDqKjL8jz73Q, https://prnt.sc/BXHBxJGn_6ce - madrid
+- https://prnt.sc/1R8okL8L5mDB - berlin
+- https://prnt.sc/3nMAyn7Lg1GH - shop pages
+- https://prnt.sc/4w0xTz8A8sGu - shop pages
+- https://prnt.sc/ZKFNf1E-IPz1 - shop page
+- https://prnt.sc/l_qRnHWTmxhU - shop category sidebar page
+- https://prnt.sc/zYudhYi88t00 - product page 
+- https://prnt.sc/_z5lrRy8ug5Q - product page
+- https://prnt.sc/SJyx9uqolx2P -shop page
+
+
+
+
+
+New (12 Oct):-
+- https://prnt.sc/PB_u5WNNURiX - rome
+- https://nimb.ws/3l78nN - denver
+- https://prnt.sc/b9CS6FAO-rPn - shop pages
+- https://nimb.ws/gZEUCY - madrid  ==============> Need to ask
+- https://prnt.sc/4inX9CSeIlK7 - madrid  
+- https://prnt.sc/iY5kI_-Y5qLS - product page
+- https://prnt.sc/l1XsBc43uVh_ - product accordion
+- https://prnt.sc/oWdX3Lx7BqBa - Hot Stock Progress page
+- https://prnt.sc/WHuKjbyxHQjJ - product page
+ - https://prnt.sc/K8pAjIwjb_Tv - product page (slider responsive done by bhaveshbhai)
+- https://prnt.sc/J1B4TTsbM0Z- - product image pages (modal 2 images showing)
+
+- https://prnt.sc/Dvliao3fOeRg - add que-ans modal (QA Modal)
+
+
+
+New (13 Oct):-
+- https://nimb.ws/ivIcHx - product image page (done)
+- https://prnt.sc/aOzY_dRoqSt- -blog Pages
+- https://prnt.sc/k3SwYgzefM_f - blog pages
+- https://prnt.sc/Sluv2jhguiN0 - blog page
+- https://prnt.sc/JyKykjihvEV_ - blog detail (done)
+- redesign in become seller page
+- https://prnt.sc/2Vk5M6ElQKTg - seller become (3 image section)
+- https://prnt.sc/VIbN2a-QSjYS - tokyo page (bg-dark)
+- https://prnt.sc/TEAvfcCqB98Q - tokyo page
+- https://prnt.sc/vRQerInIEp0A - footer section
+- https://prnt.sc/RnZxvx1zsABQ, https://prnt.sc/OoiGMUGQ4RPY, https://prnt.sc/bH-YEj8gF1d5 - all pages
+
+
+
+New (14 OCT):-
+- https://prnt.sc/6Bq5f8S8r8pU - seller pages (done)
+- https://prnt.sc/t0GQgS3HvBA6 - seller page (done)
+- https://prnt.sc/X_pfejlDMz6j - view modal (done)
+- https://prnt.sc/bzHUi_lsomlF - seller page (done)
+- https://prnt.sc/WjQy4bU5w_ra - seller page
+- https://prnt.sc/e8y69J9ldJ5T - sign up page
+- https://prnt.sc/kexpA_4XsZyI - otp page (discussed with suchika mem)
+- https://prnt.sc/v83fuyEATd7_ - edit profile modal (pending)
+- https://prnt.sc/QUP7nlzHgSZy - user-Dashboard
+- https://prnt.sc/1irMbTw8Pi0z - user dashboard
+- https://prnt.sc/vizcvA0dbskq - user dashboard
+- https://prnt.sc/cmhWNSsQUkHB - user dashboard
+
+(NEW):-
+- https://prnt.sc/ONqku8VOa6Aa - about us page (discuss with kunj bhai)
+- https://prnt.sc/I_CSAsSj8Y4Y - about us page (done)
+
+
+New (15 oct):- 
+- https://prnt.sc/Qo34Di9uR2Ik - checkout page
+- https://prnt.sc/ihUzHsBHFCK1 - checkout page
+- https://prnt.sc/MveBHw0tiJXa - compare page
+- https://prnt.sc/BgeQrOPixD8Y -(pending)
+- 404 page not show-(done)
+- https://prnt.sc/PRGAbXeRuT00 - home page
+
+
+
+New (16 Oct):-
+- https://prnt.sc/weHdMfOdQApD - osaka theme
+- https://prnt.sc/ZonNdMJMVv89 - osaka theme
+- https://prnt.sc/CsUE-8fmwp8b - view modal box (discussed with kunj sir)
+- https://prnt.sc/CBVXJpbPq6PP - active class in product page (discussed with kunj sir)
+
+
+
+
+New (17 oct) :-
+- https://prnt.sc/Anq3oVoeOC-t - dashboard bank details page
+
+
+
+New (22 oct) :-
+https://prnt.sc/vqCL4m5RKC9i -  view modal check (all type is working fine did not seen in our app)
+https://prnt.sc/oRGaHPAJOarM -(done)
+https://prnt.sc/XP9-OQV2rhUO
+https://prnt.sc/DyIKO2tvnAna-(design issue)
+https://prnt.sc/1ra9ny52ttiA - check rating - http://localhost:3000/en/product/premium-organic-pumpkin (done)
+https://prnt.sc/_pf4vfRxyDDj -done
+https://prnt.sc/1FLO1SAr2FPd -done
+https://prnt.sc/IUI1Xaa3gXkv - row g-sm-4 g-3 (done)
+https://prnt.sc/2zGjgocEyK2U -(done)
+https://prnt.sc/PA6gQgan1XK_ - check all pages (color change )
+https://prnt.sc/EmSoh88ANzEI -(done)
+https://prnt.sc/YmT-s85d9AG6 - (color change )
+https://prnt.sc/mHmRrwFquoe8
+
+
+
+New (24 Oct):-
+https://prnt.sc/yHY0VD-UUaJV - tokyo
+
+
+
+New (23 oct) :-
+https://prnt.sc/6TXDQZDB2gTM - become vendor page (done)
+https://prnt.sc/lErnGBclGWMZ(done)
+https://prnt.sc/7Kwt_5jmkYTL(done)
+https://prnt.sc/Mvkq3UsbRsNf _(aboutusimage)
+https://prnt.sc/p24UQ-pZBWjA - about us page (done)
+https://prnt.sc/8In5P7mli96_ - Maintenance page
+https://prnt.sc/DjFr2fulcot- , https://prnt.sc/fCLmcp8K3QfU
+https://prnt.sc/QjtU5eYS-sVP - http://localhost:3000/en/collections?layout=collection_left_sidebar&category=accessories  ---  check this
+https://prnt.sc/KBjW6-PXvklP - dashboard
+https://prnt.sc/mLF0k1gSeuvF == it should be like angular, check footer in all the pages
+
+
+Completed by my side :-     
+
+
+1) https://prnt.sc/eZW-iSOHwt7f - remove dots in osaka   ===========================>>>>>>>>>> Done
+2) For This issue i have ask help to designer as it is a common component 
+- https://prnt.sc/9vJbIFmqzEL5 - denver
+3) - https://prnt.sc/pJykwcgFekH3 - jyare product details ma koi pan content ni hoi to tyare title pan ni avse.   ===========================>>>>>>>>>> Done
+
+OCT 9
+4) - https://prnt.sc/Ft-w74d0UD4G - rome page ===========================>>>>>>>>>> Done
+5)- https://prnt.sc/OAQ9dGWJWudL - add left right arrow in view modal      ===========================>>>>>>>>>> Done
+6)- https://prnt.sc/nsMH0jqZmsHB - paris page     ===========================>>>>>>>>>> Done
+7)- https://prnt.sc/rObFuTyUOJfh,      ===========================>>>>>>>>>> Done
+8)- https://prnt.sc/HBJGbEVGVOXj,      ===========================>>>>>>>>>> Done
+9)- https://prnt.sc/2hCjAjNEqSmj - tokyo page     ===========================>>>>>>>>>> Done
+10)- https://prnt.sc/VIbN2a-QSjYS      ===========================>>>>>>>>>> Done
+11)- https://prnt.sc/LS11ha4MVB2L,      ===========================>>>>>>>>>> Done
+12)- https://prnt.sc/FaFwuuDRumsp - osaka page     ===========================>>>>>>>>>> Done
+13)- https://prnt.sc/jl4-qoBiJM0J - osaka     ===========================>>>>>>>>>> Done
+14)- https://prnt.sc/YItihQGrpSIX - rome      ===========================>>>>>>>>>> Done
+15)- https://prnt.sc/VHN_JzgpEOB8 - madrid     ===========================>>>>>>>>>> Done
+16)- https://prnt.sc/NEIsIoPXDI40 - madrid     ===========================>>>>>>>>>> Done
+17)- https://prnt.sc/-zFJmotGK_hn - denver     ===========================>>>>>>>>>> Done
+18)- https://prnt.sc/kYWHmS0BvV5B - shop-left-sidebar     ===========================>>>>>>>>>> Done
+19)- https://prnt.sc/gyaBZyFIxfe7 - shop collection pages     ===========================>>>>>>>>>> Done
+20)- https://prnt.sc/2eHDmlZ5jDf- - and btn-md class remove product page     ===========================>>>>>>>>>> Done
+
+OCT 10
+21) - https://prnt.sc/6L3_I9_XyitS ==============> Done
+22) - https://prnt.sc/UTE8gRcSivA3 ==============> Need to ask     ===========================>>>>>>>>>> Done
+23) - https://prnt.sc/CQtKlV-h7y2H     ===========================>>>>>>>>>> Done
+24) - https://prnt.sc/RkNvXtAeJzED     ===========================>>>>>>>>>> Done
+
+OCT 11
+- https://prnt.sc/oArdB1yxR4V- - done
+- https://nimb.ws/IeVLzB -rome     ===========================>>>>>>>>>> Done
+- https://prnt.sc/sv4ktAEHo8f5 - rome  ==============> Need to ask     ===========================>>>>>>>>>> Done
+- https://prnt.sc/PB_u5WNNURiX - rome
+- https://nimb.ws/gZEUCY - madrid  ==============> Need to ask
+- https://prnt.sc/4inX9CSeIlK7 - madrid
+- https://prnt.sc/7qcOsSQFj320 - osaka ==== done
+- https://prnt.sc/GA2pU87wikIY - osaka  ==============> Need to ask
+- https://prnt.sc/dXJqeh19Cv0c - paris
+
+OCT 12
+-- https://prnt.sc/jDqKjL8jz73Q, https://prnt.sc/BXHBxJGn_6ce - madrid
+-- https://prnt.sc/1R8okL8L5mDB - berlin
+--  https://prnt.sc/3nMAyn7Lg1GH - shop pages 
+--  https://prnt.sc/4w0xTz8A8sGu - shop pages
+- https://prnt.sc/ZKFNf1E-IPz1 - shop page
+- https://prnt.sc/l_qRnHWTmxhU - shop category sidebar page
+- https://prnt.sc/zYudhYi88t00 - product page
+- https://prnt.sc/QOt924fznib4 - all pages
+- https://prnt.sc/_z5lrRy8ug5Q - product page
+
+
+OCT 13
+- https://prnt.sc/SJyx9uqolx2P -shop page
+- https://nimb.ws/3l78nN - denver
+- https://prnt.sc/PB_u5WNNURiX - rome ==============> Need to ask
+- https://prnt.sc/b9CS6FAO-rPn - shop pages
+- https://nimb.ws/gZEUCY - madrid  ==============> Need to ask from kunj bhai
+- https://prnt.sc/4inX9CSeIlK7 - madrid - https://prnt.sc/iY5kI_-Y5qLS - product page
+- https://prnt.sc/l1XsBc43uVh_ - product
+- https://prnt.sc/WHuKjbyxHQjJ - product page
+ - https://prnt.sc/K8pAjIwjb_Tv - product page (slider responsive done by bhaveshbhai)
+ - https://prnt.sc/J1B4TTsbM0Z- - product image pages (modal 2 images showing)
+
+ OCT 14
+
+ - https://nimb.ws/ivIcHx - product image page
+ - https://prnt.sc/aOzY_dRoqSt- -blog Pages  =>> Need to Ask kunj bhai
+-  https://prnt.sc/k3SwYgzefM_f - blog pages  =>> Need to Ask kunj bhai
+-  https://prnt.sc/Sluv2jhguiN0 - blog page
+-  https://prnt.sc/JyKykjihvEV_ - blog detail
+- https://prnt.sc/2Vk5M6ElQKTg - seller become
+- https://prnt.sc/VIbN2a-QSjYS - tokyo page
+- https://prnt.sc/TEAvfcCqB98Q - tokyo page
+- https://prnt.sc/vRQerInIEp0A - footer section
+- https://prnt.sc/RnZxvx1zsABQ, https://prnt.sc/OoiGMUGQ4RPY, https://prnt.sc/bH-YEj8gF1d5 - all pages
+- - https://prnt.sc/6Bq5f8S8r8pU - seller pages  => Not Solved
+- https://prnt.sc/t0GQgS3HvBA6 - seller page
+- https://prnt.sc/bzHUi_lsomlF - seller page
+- https://prnt.sc/X_pfejlDMz6j - view modal
+
+OCT 16
+
+- https://prnt.sc/WjQy4bU5w_ra - seller page
+- https://prnt.sc/e8y69J9ldJ5T - sign up page   =>> Added the Contry code but there are design issue
+- https://prnt.sc/kexpA_4XsZyI - otp page    =>> The OTP verification is working on debouncing function once it find value in inputed then it will call API automatically
+
+(From Keyur on oct 16)
+- https://prnt.sc/PRGAbXeRuT00 - home page (need to ask that what is issue )
+-- 404 page not show
+- https://prnt.sc/MveBHw0tiJXa - compare page (ModifyString  issue confirm with bhaveshbhai)
+
+OCT 17
+- https://prnt.sc/WjQy4bU5w_ra - seller page (angular theme issue)
+- https://prnt.sc/e8y69J9ldJ5T - sign up page
+- https://prnt.sc/kexpA_4XsZyI - otp page (discussed with suchika mem)
+- https://prnt.sc/QUP7nlzHgSZy - user-Dashboard (done)
+- https://prnt.sc/QUP7nlzHgSZy - user-Dashboard
+- https://prnt.sc/1irMbTw8Pi0z - user dashboard
+- https://prnt.sc/vizcvA0dbskq - user dashboard
+- https://prnt.sc/cmhWNSsQUkHB - user dashboard
+- https://prnt.sc/ONqku8VOa6Aa - about us page (discuss with kunj bhai)
+- https://prnt.sc/I_CSAsSj8Y4Y - about us page (done)
+- https://prnt.sc/Qo34Di9uR2Ik - checkout page
+- https://prnt.sc/ihUzHsBHFCK1 - checkout page
+- https://prnt.sc/MveBHw0tiJXa - compare page
+- 404 page not show-(done)
+- https://prnt.sc/PRGAbXeRuT00 - home page (not found this type of issue )
+- https://prnt.sc/weHdMfOdQApD - osaka theme
+- https://prnt.sc/ZonNdMJMVv89 - osaka theme
+- https://prnt.sc/CsUE-8fmwp8b - view modal box (discussed with kunj sir)  =>> Already Discuss
+- https://prnt.sc/CBVXJpbPq6PP - active class in product page (discussed with kunj sir) =>> Already Discuss
+- https://prnt.sc/bzHUi_lsomlF - seller page
+- https://prnt.sc/Anq3oVoeOC-t - dashboard bank details page
+
+
+OCT 23 --- B
+-  https://prnt.sc/6TXDQZDB2gTM - become vendor page
+-  https://prnt.sc/7Kwt_5jmkYTL  ---------------------- Need to solve by design side
+-  https://prnt.sc/p24UQ-pZBWjA - about us page
+-  https://prnt.sc/8In5P7mli96_ - Maintenance page   --- If maintenance mode will open then the image will show 
+-  https://prnt.sc/DjFr2fulcot   
+-  https://prnt.sc/fCLmcp8K3QfU 
+-  https://prnt.sc/QjtU5eYS-sVP - http://localhost:3000/en/collections?layout=collection_left_sidebar&category=accessories  ---  check this
+-  https://prnt.sc/KBjW6-PXvklP - dashboard

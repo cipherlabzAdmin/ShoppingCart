@@ -1,0 +1,1 @@
+export const BannerImage = '../../src/assets/bannernew.jpg';

@@ -1,0 +1,106 @@
+// styles/InfoBar.module.scss
+.infoBar {
+  display: flex;
+  align-items: center;
+  position: relative;
+  height: 40px;
+  background-color: #f8f9fa; // Light gray background
+  border: 1px solid #dee2e6; // Border color
+  padding: 0 20px;
+}
+
+.label {
+  flex-grow: 1;
+  text-align: center;
+  font-size: 16px;
+  color: #495057; // Dark gray text color
+}
+
+.point {
+  position: absolute;
+  height: 15px;
+  width: 15px;
+  border-radius: 50%;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.driveThru {
+  left: 10%; // Positioning the point
+  background-color: #e60000; // Red
+}
+
+.pickPoint {
+  right: 10%; // Positioning the point
+  background-color: #007bff; // Blue
+}
+
+.option {
+  display: flex;
+  align-items: center;
+  margin-right: 20px; // Space between options
+}
+
+.circle {
+  height: 20px;
+  width: 20px;
+  border-radius: 50%;
+  margin-right: 10px; // Space between circle and label
+}
+
+.red {
+  border: 2px solid #e60000;
+}
+.orange {
+  border: 2px solid #f0ad4e;
+}
+.green {
+  border: 2px solid #5cb85c;
+}
+.blue {
+  border: 2px solid #5bc0de;
+}
+
+.infoBarSecound {
+  display: flex;
+  align-items: center;
+  background-color: #f8f9fa; // Light gray background
+  border: 1px solid #dee2e6; // Light gray border
+  padding: 5px 20px;
+  justify-content: space-between;
+}
+.inputGroup {
+  display: flex;
+  flex-direction: column;
+  width: 100%; // Adjust based on your layout, example uses full width within a col-6
+  margin-bottom: 15px; // Spacing below the component
+
+  label {
+    margin-bottom: 5px;
+    font-size: 16px;
+    color: #333; // Dark grey color for the text
+  }
+
+  select {
+    width: 100%;
+    padding: 8px 10px;
+    font-size: 16px;
+    border: 1px solid #ccc; // Light grey border
+    border-radius: 4px; // Slightly rounded corners
+    -webkit-appearance: none; // Removes default styling, especially on iOS
+    -moz-appearance: none;
+    appearance: none;
+    box-shadow: none; // No shadow for a flat design
+    background-color: #fff; // White background
+
+    &:focus {
+      outline: none;
+      border-color: #0056b3; // Blue border on focus
+    }
+
+    // Adding custom arrow for select
+    background-image: url("data:image/svg+xml;charset=US-ASCII,%3Csvg%20width%3D%2212%22%20height%3D%228%22%20viewBox%3D%220%200%2012%208%22%20fill%3D%22none%22%20xmlns%3D%22http://www.w3.org/2000/svg%22%3E%3Cpath%20fill-rule%3D%22evenodd%22%20clip-rule%3D%22evenodd%22%20d%3D%22M1.41%200.29397L6%204.88397L10.59%200.29397L12%201.70397L6%207.70397L0%201.70397L1.41%200.29397Z%22%20fill%3D%22%23333%22%3E%3C/path%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 10px center;
+  }
+}

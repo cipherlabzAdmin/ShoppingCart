@@ -1,0 +1,15 @@
+.progressbar {
+    display: flex;
+    justify-content: space-between;
+    border-bottom: 2px solid;
+}
+.progressbar li {
+    width: 24px;
+    height: 24px;
+    border: 2px solid;
+    border-radius: 50%;
+    font-weight: bold;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}

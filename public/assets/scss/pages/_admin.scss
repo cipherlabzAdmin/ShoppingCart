@@ -1,0 +1,110 @@
+// Define variables for colors if you need to reuse them
+$color-done: #28a745;
+$color-handover: #ffc107;
+$color-done-text: white;
+$color-handover-text: white;
+
+// Base styles for the custom table
+.custom-table {
+  th {
+    background-color: #004080;
+    color: white;
+  }
+
+  .main-header {
+    background-color: #004080;
+    color: white;
+    text-align: center;
+  }
+
+  .row-no {
+    color: white;
+    font-weight: bold;
+
+    // Using & to refer to the parent selector
+    &.row-1 {
+      background-color: $color-done;
+    }
+    &.row-2 {
+      background-color: $color-handover;
+    }
+    // Add more color classes as necessary...
+  }
+
+  // Custom button styling
+  .status-btn {
+    border: none;
+    border-radius: 5px;
+    background-color: $color-handover;
+    color: $color-handover-text;
+    padding: 5px 10px;
+    cursor: pointer;
+
+    // Nested pseudo-selector for hover state
+    &:hover {
+      background-color: darken($color-handover, 10%);
+    }
+  }
+}
+
+// For DONE button
+.status-btn-done {
+  background-color: $color-done;
+  color: $color-done-text;
+
+  &:hover {
+    background-color: darken($color-done, 10%);
+  }
+}
+
+// Add other SCSS or nested selectors as needed...
+
+.search-bar-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 5px;
+  background-color: #f0f0f0;
+  transition: all 0.3s ease;
+
+  &.expanded {
+    justify-content: space-between;
+  }
+
+  .toggle-button {
+    background-color: #ffcc00;
+    border: none;
+    padding: 5px 10px;
+    margin-right: 5px;
+    width: 250px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+
+    &:hover {
+      background-color: darken(#ffcc00, 10%);
+    }
+  }
+
+  .search-input-container {
+    flex-grow: 1;
+    overflow: hidden;
+    white-space: nowrap;
+    transition: width 0.3s ease;
+
+    &.show {
+      width: auto;
+    }
+
+    .search-input {
+      // width: 100%;
+      border: 1px solid #ccc;
+      padding: 5px;
+      transition: padding 0.3s ease;
+      width: 250px !important;
+      &:focus {
+        outline: none;
+        border-color: blue;
+      }
+    }
+  }
+}

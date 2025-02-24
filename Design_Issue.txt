@@ -1,0 +1,31 @@
+Hover here i will put the design issue which i m facing on developing time.
+
+- Till now the frontend is not went for checking of designing issues.
+- But while developing time if i am facing any designing issues at that time i took help of designer and fixed it.
+- Need to ask help to create custom OffCanvas from suchika mam.
+- The modal is not closing due to z-index issue.
+- Newsletter issue of close icon
+
+
+
+
+- https://prnt.sc/54ARFx5DUWRZ - discussing of Developer
+- https://prnt.sc/5xrVj0A0ZBfM
+- https://prnt.sc/wXndQoEKvLAS
+- https://prnt.sc/9I0K9PezjmdO
+
+
+OCT 16
+- https://prnt.sc/e8y69J9ldJ5T - sign up page   =>> Added the Contry code but there are design issue
+
+
+
+check later :
+https://prnt.sc/975PghkoDZuH - border issue in rtl
+
+
+
+
+
+- https://prnt.sc/MiVfT-d63wRO 
+- https://prnt.sc/tJxl_OLctFBc

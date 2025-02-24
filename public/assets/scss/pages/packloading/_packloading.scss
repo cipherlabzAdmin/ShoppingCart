@@ -1,0 +1,64 @@
+.vehicleForm {
+  padding: 1em;
+  background: #fff;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+
+  .section {
+    margin-bottom: 20px;
+    h2 {
+      background: #004080;
+      color: #fff;
+      padding: 5px 10px;
+      margin: 0 -10px 10px;
+    }
+  }
+
+  .header {
+    background-color: #004080; // Replace with your actual color code
+    color: #fff; // Adjust text color as needed
+    text-align: center;
+    height: 30px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    /* height: 30px; */
+    margin-bottom: 5px;
+    // Other styles as needed
+  }
+  .subHeader {
+    background-color: rgb(
+      95 92 92 / 63%
+    ); // Replace with your actual color code
+    color: #fff; // Adjust text color as needed
+    text-align: center;
+    height: 30px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    /* height: 30px; */
+    margin-bottom: 5px;
+    // Other styles as needed
+  }
+
+  .inputGroup,
+  .checkboxGroup {
+    margin-bottom: 10px;
+    label {
+      display: block;
+      margin-bottom: 5px;
+    }
+    input[type="text"] {
+      width: 100%;
+      padding: 8px;
+      margin-bottom: 5px;
+    }
+    input[type="checkbox"] {
+      margin-right: 10px;
+    }
+  }
+
+  .warning {
+    border: 1px solid red;
+    & + small {
+      color: red;
+    }
+  }
+}
