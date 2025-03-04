@@ -47,7 +47,6 @@ const ExtraItems = () => {
     }
   }, [searchTerm, extraItems]);
 
-  console.log(filteredProducts);
   const handleDropdownItemClick = (product) => {
     setTableItems([
       ...tableItems,

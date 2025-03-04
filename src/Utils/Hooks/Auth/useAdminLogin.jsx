@@ -30,7 +30,7 @@ const fetchCurrentUser = async (token) => {
         Authorization: `Bearer ${token}`,
       },
     });
-    console.log(response.data?.result);
+    localStorage.setItem("AdminId",response.data?.result.id);
     return response.data?.result;
   } catch (error) {
     console.error("Error fetching current user:", error);

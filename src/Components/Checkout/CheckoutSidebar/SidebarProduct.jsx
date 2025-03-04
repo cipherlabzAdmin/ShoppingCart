@@ -54,14 +54,13 @@ const SidebarProduct = ({ values }) => {
                     >
                       {item?.product?.discountAmount
                         ? convertCurrency(
-                            item?.product?.sellingPrice +
-                              item?.product?.discountAmount
+                            item?.product?.sellingPrice
                           )
                         : ""}
                     </del>
                     {item?.variation
-                      ? convertCurrency(item?.product?.sellingPrice)
-                      : convertCurrency(item?.product?.sellingPrice)}{" "}
+                      ? convertCurrency(item?.product?.sellingPrice-item?.product?.discountAmount)
+                      : convertCurrency(item?.product?.sellingPrice-item?.product?.discountAmount)}{" "}
                     x {item.quantity}
                   </h5>
                   <h5 className="price">

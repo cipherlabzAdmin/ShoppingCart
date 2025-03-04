@@ -93,7 +93,7 @@ const ProductBox1 = ({
           style={{ color: "var(--theme-color)" }}
         >
           <span className="theme-color price">
-            {convertCurrency(productDetail.sellingPrice)}
+            {convertCurrency(productDetail.sellingPrice- productDetail.discountAmount)}
           </span>
 
           {productDetail.discountAmount ? (
@@ -113,7 +113,7 @@ const ProductBox1 = ({
               style={{ color: "var(--theme-color)" }}
             >
               {convertCurrency(
-                productDetail.sellingPrice + productDetail.discountAmount
+                productDetail.sellingPrice
               )}
             </del>
           </div>

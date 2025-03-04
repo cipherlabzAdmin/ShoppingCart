@@ -28,7 +28,7 @@ const CheckoutSidebar = ({ values, setFieldValue, cId }) => {
   });
 
   const { convertCurrency } = useContext(SettingContext);
-  const { cartProducts, cartTotal, setCartTotal } = useContext(CartContext);
+  const { cartProducts, cartTotal,getTotal, setCartTotal } = useContext(CartContext);
   const { itemTotal, setItemTotal } = useState();
   const { i18Lang } = useContext(I18NextContext);
   const { t } = useTranslation(i18Lang, "common");
@@ -89,10 +89,14 @@ const CheckoutSidebar = ({ values, setFieldValue, cId }) => {
       calculateDeliveryCharge(values.delivery_description)
     : t("Notcalculatedyet");
 
+    
+
   const totalSubTotal = (values.cart || []).reduce(
     (sum, item) => sum + (item?.sub_total || 0),
     0
   );
+
+  const tot = getTotal(cartProducts) +calculateDeliveryCharge(values.delivery_description);
 
   return (
     <Col xxl="4" xl="5" className="mx-auto">
@@ -104,7 +108,7 @@ const CheckoutSidebar = ({ values, setFieldValue, cId }) => {
               <h4>{t("Total")}</h4>
               <h4 className="price">
                 {checkoutData?.total?.sub_total
-                  ? convertCurrency(totalSubTotal + discount)
+                  ? convertCurrency(totalSubTotal)
                   : t(`Notcalculatedyet`)}
               </h4>
             </li>
@@ -145,13 +149,14 @@ const CheckoutSidebar = ({ values, setFieldValue, cId }) => {
             <li className="list-total">
               <h4>{t("Subtotal")}</h4>
               <h4 className="price">
-                {convertCurrency(totalSubTotal + deliveryChargeValue)}
+                {convertCurrency(getTotal(cartProducts) +calculateDeliveryCharge(values.delivery_description))}
               </h4>
             </li>
           </ul>
         </div>
         <PlaceOrder
-          total={totalSubTotal}
+          total={tot}
+          sub={totalSubTotal}
           deliveryCharges={calculateDeliveryCharge(values.delivery_description)}
           values={values}
           cId={cId}

@@ -31,19 +31,14 @@ const HeaderCartBottom = ({
   }, [cartProducts, modal]);
 
 
-   useEffect(() => {  
-      const isCartAvaliable = JSON.parse(localStorage.getItem("cart"));
-      if (isCartAvaliable?.items?.length > 0) {
-        const discountSum =
-        isCartAvaliable.items?.reduce((sum, item) => {
-          const discount =
-            (item.product?.discountAmount ?? 0) * (item.quantity ?? 1);
-          return sum + discount;
-        }, 0) || 0;
+  useEffect(() => {  
+    const discountSum = cartProducts?.items?.reduce(
+      (sum, item) => sum + (item.product?.discountAmount ?? 0) * (item.quantity ?? 1),
+      0
+    ) || 0;
+    setDiscount(parseFloat(discountSum));
+  }, [cartProducts]);
   
-          setDiscount(parseFloat(discountSum));
-      }
-    }, []);
 
   return (
     <>

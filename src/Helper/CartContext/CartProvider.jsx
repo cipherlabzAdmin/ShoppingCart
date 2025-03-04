@@ -83,10 +83,10 @@ const CartProvider = (props) => {
     const transformedCart = cartProducts.map((item) => {
       const discountAmount = item.product.discountAmount || 0;
       const discountRate = item.product.discountRate || 0;
-      const unitPrice = item.product.sellingPrice + discountAmount;
+      const unitPrice = item.product.sellingPrice;
       const quantity = item.quantity || 1;
       const subTotal = item.sub_total || 0;
-      const totalPrice = unitPrice * quantity;
+      const totalPrice = item.sub_total || 0;
 
       return {
         productId: item.product_id,
@@ -104,7 +104,6 @@ const CartProvider = (props) => {
     setCartItems(transformedCart);
   }, [cartProducts]);
 
-  //console.log(55,cartItems);
   // Getting total
   const total = useMemo(() => {
     return cartProducts?.reduce((prev, curr) => {
@@ -115,9 +114,10 @@ const CartProvider = (props) => {
   // Total Function for child components
   const getTotal = (value) => {
     return value?.reduce((prev, curr) => {
-      return prev + Number(curr.sub_total);
+      return prev + Number(curr.sub_total) - Number(curr.product.discountAmount * curr.quantity);
     }, 0);
   };
+  
 
   // Remove and Delete cart data from API and State
   const removeCart = (id, cartId) => {

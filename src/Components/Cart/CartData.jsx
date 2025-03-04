@@ -19,14 +19,14 @@ const CartData = ({ elem }) => {
         <td className="price" style={{ paddingTop: "2vw" }}>
           {/* <h4 className='table-title text-content'>{t('Price')}</h4> */}
           <h5>
-            {convertCurrency(elem?.product?.sellingPrice)}{" "}
+            {convertCurrency(elem?.product?.sellingPrice - elem?.product?.discountAmount)}{" "}
             {elem?.product?.discountAmount ? (
               <del
                 style={{ color: "var(--theme-color)" }}
                 className="text-content"
               >
                 {convertCurrency(
-                  elem?.product?.sellingPrice + elem?.product?.discountAmount
+                  elem?.product?.sellingPrice
                 )}
               </del>
             ) : (

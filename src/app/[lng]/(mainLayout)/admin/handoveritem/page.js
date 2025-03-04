@@ -15,12 +15,12 @@ const baseUrl = process?.env?.API_BASE_URL;
 
 const handoverItems = () => {
   const searchParams = useSearchParams();
+  const currentDate = new Date();
   const [selectedPackage, setSelectedPackage] = useState({});
   const route = localStorage.getItem("route");
   const storedWarehouse = JSON.parse(localStorage.getItem("selectedWarehouse"));
   const checkoutId = searchParams.get("id");
   //const router = useRouter();
-
   const [generalItems, setGeneralItems] = useState([]);
   const [coolBoxItems, setCoolBoxItems] = useState([]);
   const [chemicalItems, setChemicalItems] = useState([]);
@@ -75,6 +75,39 @@ const handoverItems = () => {
   }, []);
 
   const handleChangeCheckoutStatus = async () => {
+    const admin = localStorage.getItem("AdminId");
+
+    const updatecheckoutdata = {
+      deliveryMethodId: selectedPackage.deliveryMethodId,
+      discount: selectedPackage.discount,
+      handOverUserId: parseInt(admin),
+      isHandover: true,
+      handOverTime: currentDate,
+      uCartItems: 
+        allItems.map((item, index) => ({
+          id: item.id,
+          productId: item.productId,
+          productCode: item.productCode || "",
+          productName: item.productName || "",
+          warehouseId: storedWarehouse.id || "",
+          warehouseCode: storedWarehouse.code || "",
+          warehouseName: storedWarehouse.name || "",
+          unitPrice: item.offerPrice || 0,
+          quantity: item.quantity || 0,
+          discountRate: item.discountRate || 0,
+          discountAmount: item.discountAmount || 0,
+          totalPrice: item.totalPrice || 0,
+          isNewEntry: false,
+          isEdited: removedOrders.length > 0 ? true : false,
+          handOverUserId: admin,
+          isHandover: true,
+          handOverTime: currentDate,
+          isExtraItem: true,
+        })),
+      
+      id: selectedPackage.id,
+    };
+
     if (allItems.length === 0) {
       toast.error("No Items Available");
       return;
@@ -90,11 +123,18 @@ const handoverItems = () => {
         postData,
         { headers: { "Content-Type": "application/json" } }
       );
+
+      const updateresponse = await axios.post(
+        `${baseUrl}services/ecommerce/checkout/Update`,
+        updatecheckoutdata,
+        { headers: { "Content-Type": "application/json" } }
+      );
+
       if (response.data.success) {
         toast.success("Checkout Items Updated Successfully");
         localStorage.removeItem("RemovedItems");
         localStorage.removeItem("checkedItems");
-        window.location.href =`/${i18Lang}/admin/handover`;
+        window.location.href = `/${i18Lang}/admin/handover`;
       }
     } catch (error) {
       console.error("Failed to fetch items:", error);
@@ -189,17 +229,21 @@ const handoverItems = () => {
         <div className="col-lg-8 col-12">
           <h6 className="bg-light p-2">Return Items</h6>
         </div>
-        <ReturnItems items={removedOrders} />
+        <ReturnItems
+          items={removedOrders}
+          checkoutId={checkoutId}
+          customerId={
+            selectedPackage ? selectedPackage.eCommerceCustomerId : null
+          }
+        />
       </div>
       <div className="row m-0 d-flex justify-content-center">
         <div className="col-lg-8 col-12">
           <h4 className="my-2 fw-bold">Extra Items</h4>
         </div>
         <div className="col-lg-8 col-12">
-          
           <ExtraItems />
         </div>
-        
       </div>
       <div className="row m-0 d-flex justify-content-center">
         <div className="col-lg-8 col-12 table-responsive">

@@ -42,6 +42,7 @@ const RunningConditionCheck = ({ routeId }) => {
         break;
       case 4:
         setIsBreak(bool);
+        break;
       case 5:
         setIsBodyCondition(bool);
         break;
@@ -50,7 +51,6 @@ const RunningConditionCheck = ({ routeId }) => {
     }
   };
   const handleSubmit = async () => {
-    console.log(routeId);
     if(routeId === null){
       toast.error("Please Select Vehicle Number");
       return;

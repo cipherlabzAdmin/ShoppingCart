@@ -62,7 +62,8 @@ const SelectedCart = ({ modal, setSelectedVariation, setModal }) => {
                 <h6>
                   {convertCurrency(
                     (elem?.product?.sellingPrice ??
-                      elem?.product?.sellingPrice)
+                      elem?.product?.sellingPrice)-
+                      (elem?.product?.discountAmount ?? 0)
                   )}
                 </h6>
 
@@ -71,8 +72,7 @@ const SelectedCart = ({ modal, setSelectedVariation, setModal }) => {
                     <del>
                       {convertCurrency(
                         (elem?.product?.sellingPrice ??
-                          elem?.product?.sellingPrice) +
-                          (elem?.product?.discountAmount ?? 0)
+                          elem?.product?.sellingPrice) 
                       )}
                     </del>
                   </h6>

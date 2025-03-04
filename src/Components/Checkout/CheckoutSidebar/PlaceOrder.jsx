@@ -9,7 +9,7 @@ const baseUrl = process?.env?.API_BASE_URL;
 import Cookies from "js-cookie";
 import { toast } from "react-toastify";
 
-const PlaceOrder = ({ values, cId, deliveryCharges, total, discount }) => {
+const PlaceOrder = ({ values, cId, deliveryCharges, total, discount,sub }) => {
   const storedWarehouse = JSON.parse(localStorage.getItem("selectedWarehouse"));
   const { i18Lang } = useContext(I18NextContext);
   const { t } = useTranslation(i18Lang, "common");
@@ -74,10 +74,10 @@ const PlaceOrder = ({ values, cId, deliveryCharges, total, discount }) => {
       warehouseId: storedWarehouse.id,
       latitude: values.billing_address.latitude,
       longitude: values.billing_address.longitude,
-      subTotal: total + discount,
+      subTotal: sub,
       discount: discount,
       deliveryMethodId: values.delivery_description,
-      totalAmount: total + deliveryCharges,
+      totalAmount: total,
       isShippingAddressIsSameAsBillingAddress: true,
       cartItems: cartItems,
       deliveryDate: values.delivery_date,
@@ -105,7 +105,6 @@ const PlaceOrder = ({ values, cId, deliveryCharges, total, discount }) => {
             },
       ],
     };
-    
     if (values.billing_address) {
       checkoutCart(data);
     } else {

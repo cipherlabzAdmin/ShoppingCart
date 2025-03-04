@@ -75,7 +75,6 @@ const SearchModule = () => {
     setSearchState(value);
   };
 
-  console.log(88,data);
   return (
     <>
       <Breadcrumb title={'Search'} subNavigation={[{ name: 'Search' }]} />

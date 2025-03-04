@@ -45,12 +45,15 @@ const DeliveryTable = ({ orders }) => {
               <td className="p-1">45:20</td>
               <td className="p-1">{item.packingNo}</td>
               <td className="p-1" align="right">
+                {item.isHandover ? 
+                <span className="badge bg-success">Done</span> : 
                 <button
                   onClick={() => handleNext(item)}
                   className="p-1 btn btn-sm bg-warning"
                 >
                   Handover
                 </button>
+}
               </td>
             </tr>
           ))}

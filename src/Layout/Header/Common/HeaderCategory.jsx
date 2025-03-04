@@ -59,7 +59,7 @@ const HeaderCategory = ({ customClass, icon, dropDownClass }) => {
             </div>
 
             <ul className="category-list">
-              {category.length > 0 &&
+              {category && category.length > 0 &&
                 category?.map((elem, i) => (
                   <li
                     className="onhover-category-list"

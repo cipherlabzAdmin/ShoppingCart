@@ -12,6 +12,7 @@ const SetHandoverPage = () => {
   const start = { lat: 7.006398, lng: 79.962609 };
   const [endpoints, setEndpoints] = useState([]);
   const [orders, setOrders] = useState([]);
+  const [allPackages, setAllPackages] = useState([]);
   const route = localStorage.getItem("route");
   const storedWarehouse = JSON.parse(localStorage.getItem("selectedWarehouse"));
 
@@ -26,7 +27,7 @@ const SetHandoverPage = () => {
       };
       const response = await getOrderDetails(postData);
 
-      //console.log(response.result.items);
+      setAllPackages(response.result.items);
     } catch (error) {
       console.error("Failed to fetch OrderDetails:", error);
     }
@@ -38,16 +39,23 @@ const SetHandoverPage = () => {
     mapIds: ["b80feb2184f1411f"],
   });
 
+
   useEffect(() => {
     const storedOrderDetails = localStorage.getItem("matchingOrders");
     fetchOrderDetails(route);
+  
     if (storedOrderDetails) {
-      setOrders(JSON.parse(storedOrderDetails));
+      const parsedOrders = JSON.parse(storedOrderDetails);  
+      setTimeout(() => {
+        const matchingPackages = allPackages.filter(pkg =>
+          parsedOrders.some(order => order.packingNo === pkg.packingNo)
+        );
+  
+        setOrders(matchingPackages);
+      }, 500);
     }
-  }, []);
-
-  //console.log(orders);
-
+  }, [allPackages]);
+  
   return (
     <div className="container-fluid">
       <div className="row d-flex justify-content-center">

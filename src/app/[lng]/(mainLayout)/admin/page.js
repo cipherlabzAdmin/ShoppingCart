@@ -29,12 +29,16 @@ const LoginContent = () => {
   
   const handleSubmit = (values) => {
     mutate(values, {
-      onSuccess: () => {
-        localStorage.setItem("userType", 1); 
+      onSuccess: (response) => {
+        localStorage.setItem("userType", 1);
         router.push("/admin/driver");
       },
+      onError: (error) => {
+        console.error("Mutation Error:", error);
+      },
     });
-  };
+};
+
   
 
   useEffect(() => {
