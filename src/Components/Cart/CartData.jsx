@@ -22,8 +22,7 @@ const CartData = ({ elem }) => {
             {convertCurrency(elem?.product?.sellingPrice - elem?.product?.discountAmount)}{" "}
             {elem?.product?.discountAmount ? (
               <del
-                style={{ color: "var(--theme-color)" }}
-                className="text-content"
+                className="text-content text-danger"
               >
                 {convertCurrency(
                   elem?.product?.sellingPrice

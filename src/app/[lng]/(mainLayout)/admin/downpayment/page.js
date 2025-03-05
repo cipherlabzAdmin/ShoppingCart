@@ -1,15 +1,81 @@
 "use client";
-import React, { useContext } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { AuthProvider } from "@/Helper/AuthContext/AuthContext";
 import withAuth from "@/Components/AuthHOC/withAuth";
 import { Form, Formik } from "formik";
 import { useRouter } from "next/navigation";
 import I18NextContext from "@/Helper/I18NextContext";
+import getDriverDetails from "@/app/api/admin/ecommerce/driverService";
+import getVehiclesByIdService from "@/app/api/admin/ecommerce/getVehiclesByIdService";
+import getDeliveryRouteService from "@/app/api/admin/ecommerce/getDeliveryRouteService";
 
 const ToBeSettlePage = () => {
   const router = useRouter();
   const { i18Lang } = useContext(I18NextContext);
+  const storedWarehouse = JSON.parse(localStorage.getItem("selectedWarehouse"));
+  const [officers, setOfficers] = useState([]);
+    const [vehicles, setVehicles] = useState([]);
+    const [selectedOfficers, setSelectedOfficers] = useState(null);
+    const [deliveryRoute, setDeliveryRoute] = useState(null);
 
+    const fetchVehicles = async (driverId) => {
+      try {
+        const responseVehicles = await getVehiclesByIdService(driverId);
+        setVehicles(responseVehicles.result);
+      } catch (error) {
+        console.error("Failed to fetch vehicles:", error);
+      }
+    };
+    const fetchDeliveryRoute = async (driverId,vehicleId) => {
+      try {
+        const response = await getDeliveryRouteService(driverId,vehicleId);
+        setDeliveryRoute(response.result.id);
+      } catch (error) {
+        console.error("Failed to fetch vehicles:", error);
+      }
+    };
+
+    const handleSetOfficer = async (event) => {
+      const selectedValue = event.target.value;
+      setSelectedOfficers(selectedValue);
+      await fetchVehicles(selectedValue);
+    };
+  
+    const handleSetDeliveryRoute = async (event) => {
+      const selectedValue = event.target.value;
+      await fetchDeliveryRoute(selectedOfficers,selectedValue);
+    };
+
+    
+    useEffect(() => {
+      if (storedWarehouse) {
+        const wId = storedWarehouse.id;
+        const fetchDrivers = async () => {
+          try {
+            const responseOfficers = await getDriverDetails({
+              warehouseId: wId,
+              userType: 5,
+              skipCount: 0,
+              maxResultCount: 100,
+            });
+            if (responseOfficers) {
+              const resultsOfficers = responseOfficers.result.items.flatMap(
+                (element) => ({
+                  label: element.fullName,
+                  value: element.id,
+                })
+              );
+              setOfficers(resultsOfficers);
+            }
+          } catch (error) {
+            console.error("Failed to fetch vehicles:", error);
+          }
+        };
+        if (wId) {
+          fetchDrivers();
+        }
+      }
+    }, []);
   const handleSubmit = () => {
     //alert();
   };
@@ -44,11 +110,19 @@ const ToBeSettlePage = () => {
                     <label>Delivery Officer Name</label>
                   </div>
                   <div className="col-6">
-                    <input
-                      type="text"
+                  <select
                       className="form-control border-secondary form-control-sm"
-                      placeholder="Please Enter"
-                    />
+                      onChange={handleSetOfficer}
+                    >
+                      <option disabled selected>
+                        Please Select
+                      </option>
+                      {officers.map((officer, index) => (
+                        <option key={index} value={officer.value}>
+                          {officer.label}
+                        </option>
+                      ))}
+                    </select>
                   </div>
                 </div>
                 <div className="row mt-2">
@@ -56,23 +130,19 @@ const ToBeSettlePage = () => {
                     <label>Vehicle Number</label>
                   </div>
                   <div className="col-6">
-                    <select className="form-control border-secondary form-control-sm">
+                    <select
+                      className="form-control border-secondary form-control-sm"
+                      onChange={handleSetDeliveryRoute}
+                    >
                       <option disabled selected>
                         Please Select
                       </option>
+                      {vehicles.map((vehicle, index) => (
+                        <option key={index} value={vehicle.id}>
+                          {vehicle.vehicleNumber}
+                        </option>
+                      ))}
                     </select>
-                  </div>
-                </div>
-                <div className="row mt-2">
-                  <div className="col-6 d-flex align-items-center">
-                    <label>Route</label>
-                  </div>
-                  <div className="col-6">
-                    <input
-                      type="text"
-                      className="form-control border-secondary form-control-sm"
-                      placeholder="Please Enter"
-                    />
                   </div>
                 </div>
                 <div className="row mt-2">

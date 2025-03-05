@@ -42,14 +42,15 @@ const SidebarProduct = ({ values }) => {
                   height={70}
                 />
                 <div className="cart-content">
-                  <h4>
+                  {/* h4 */}
+                  <h6 style={{width: '75%'}}>
                     {item?.variation
                       ? item?.variation?.name
                       : item?.product?.name}
-                  </h4>
+                  </h6>
                   <h5 className="text-theme">
                     <del
-                      className="text-secondary"
+                      className="text-danger"
                       style={{ paddingRight: "10px" }}
                     >
                       {item?.product?.discountAmount

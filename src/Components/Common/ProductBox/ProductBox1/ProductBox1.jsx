@@ -109,8 +109,7 @@ const ProductBox1 = ({
         {productDetail.discountAmount ? (
           <div className="d-flex gap-2">
             <del
-              className="text-content text-secondary"
-              style={{ color: "var(--theme-color)" }}
+              className="text-content text-danger"
             >
               {convertCurrency(
                 productDetail.sellingPrice
