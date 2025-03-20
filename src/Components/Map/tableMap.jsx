@@ -13,9 +13,11 @@ const TableComponent = ({
   widthPre = "100%",
   completeDelevery,
   matchingItem,
+  setTotalDistance,
 }) => {
   const [orderData, setOrderData] = useState([]);
   const [selectedPackingNo, setSelectedPackingNo] = useState([]);
+  const [totalDistance, setLocalTotalDistance] = useState(0);
 
   useEffect(() => {
     if (orderDetails) {
@@ -90,6 +92,25 @@ const TableComponent = ({
     }
     return item[header.key];
   };
+
+  useEffect(() => {
+    if (computeDistanceInKilometers) {
+      const sumDistance = orderData.reduce((sum, item) => {
+        const distance = parseFloat(
+          computeDistanceInKilometers(
+            start.lat,
+            start.lng,
+            item.latitude,
+            item.longitude
+          )
+        );
+        return sum + (isNaN(distance) ? 0 : distance);
+      }, 0);
+
+      setLocalTotalDistance(sumDistance.toFixed(2));
+      if (setTotalDistance) setTotalDistance(sumDistance.toFixed(2));
+    }
+  }, [orderData, start, computeDistanceInKilometers, setTotalDistance]);
 
   return (
     <div className="mt-4" style={{ width: `${widthPre}` }}>

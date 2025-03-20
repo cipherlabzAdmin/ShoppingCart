@@ -18,6 +18,7 @@ import { AuthProvider } from "@/Helper/AuthContext/AuthContext";
 import withAuth from "@/Components/AuthHOC/withAuth";
 import { Toast } from "reactstrap";
 import { toast } from "react-toastify";
+import sendToNextStatus from "@/app/api/admin/ecommerce/sendToNext";
 
 const baseUrl = process?.env?.API_BASE_URL;
 
@@ -41,8 +42,6 @@ const SetDriverOrderPage = () => {
         "Driver and Delivery Officer cannot be the same"
       ),
   });
-  // Start location in Colombo, Sri Lanka
-  const start = { lat: 7.084, lng: 80.0098 };
   const [endpoints, setEndpoints] = useState([]);
   const [response, setResponse] = useState([]);
   const [warehouseId, setWarehouseId] = useState("");
@@ -51,8 +50,13 @@ const SetDriverOrderPage = () => {
   const [drivers, setDrivers] = useState([]);
   const [officers, setOfficers] = useState([]);
   const [isSubmitting, setSubmitting] = useState();
+  const [label, setLabel] = useState("");
+  const [totalDistance, setTotalDistance] = useState(0);
   const router = useRouter();
   const storedWarehouse = JSON.parse(localStorage.getItem("selectedWarehouse"));
+  const startLat = storedWarehouse ? storedWarehouse.latitude : "7.084";
+  const startLng = storedWarehouse ? storedWarehouse.longitude : "80.0098";
+  const start = { lat: parseFloat(startLat), lng: parseFloat(startLng) };
   const mapRef = useRef();
 
   const { i18Lang } = useContext(I18NextContext);
@@ -63,14 +67,21 @@ const SetDriverOrderPage = () => {
     mapIds: ["b80feb2184f1411f"],
   });
 
+  const handleSetSelectedVehicleName = (event) => {
+    const val = event.target.value;
+    const filteredItem = vehicleOptions.filter((item) => parseInt(item.value) === parseInt(val));
+    
+    setLabel(filteredItem[0].label);
+  };
+
   useEffect(() => {
     if (storedWarehouse) {
       const wId = storedWarehouse.id;
       const fetchVehicles = async () => {
         try {
           const response = await getVehicleDetails({
-            //warehouseId: wId,
-            //isAvailable: true,
+            warehouseId: wId,
+            // isAvailable: true,
             skipCount: 0,
             maxResultCount: 100,
           });
@@ -149,8 +160,9 @@ const SetDriverOrderPage = () => {
     const distanceInMeters =
       // eslint-disable-next-line no-undef
       google.maps.geometry.spherical.computeDistanceBetween(point1, point2);
-    const distanceInKilometers = distanceInMeters / 1000; // Convert meters to kilometers
-    return distanceInKilometers.toFixed(2); // Return the distance rounded to two decimal places
+    const distanceInKilometers = distanceInMeters / 1000;
+
+    return distanceInKilometers.toFixed(2);
   };
 
   useEffect(() => {
@@ -170,25 +182,29 @@ const SetDriverOrderPage = () => {
     const fetchEndpoints = async () => {
       const postData = {
         warehouseId: storedWarehouse.id,
-        //status: 8,
+        // status: 6,
         sortType: 1,
         skipCount: 0,
         maxResultCount: 1000,
+        isHandover: false,
       };
       try {
         const response = await getOrderDetails(postData);
         if (response) {
-          //console.log("Order details response", response);
-          const itemsWithLatLong = response.result.items.map((item) => ({
+          const filteredItems = response.result.items.filter(
+            (item) => item.isHandover !== true && item.packingNo !== null
+          );
+
+          const itemsWithLatLong = filteredItems.map((item) => ({
             lat: parseFloat(item.latitude),
             lng: parseFloat(item.longitude),
             status: item.deliveryMethodId,
             checkoutId: item.checkoutId,
             checkoutNo: item.checkoutNo,
             isDisabled: false,
-            // If the attribute is named 'long', use 'long', otherwise use 'lng' if that's the correct attribute name.
           }));
-          setResponse(response.result.items);
+
+          setResponse(filteredItems);
           setEndpoints(itemsWithLatLong);
         }
 
@@ -271,15 +287,33 @@ const SetDriverOrderPage = () => {
     }
 
     const checkoutIds = selectedOdr.map((item) => item.id);
-    //console.log(checkoutIds);
-    const formData = {
-      ...values,
-      warehouseId,
+
+    const data = {
+      warehouseId: storedWarehouse.id,
+      vehicleId: parseInt(values.vehicleId),
+      vehicleNumber: label,
+      driverId: parseInt(values.driverId),
+      deliveryOfficerId: parseInt(values.deliveryOfficerId),
+      openingMeterReading: "",
+      openingMeterReadingImageUrl: "",
+      expectedEndMeterReading: "",
+      distanceToFinalEndpoint: "",
+      totalDistance: "",
+      isEngineOil: false,
+      isAir: false,
+      isWater: false,
+      isBrake: false,
+      isCondition: false,
+      routeDistanceInKM: totalDistance,
       checkoutIds,
     };
 
-    //console.log("Form Data:", formData);
-
+    // const formData = {
+    //   ...values,
+    //   warehouseId,
+    //   routeDistanceInKM: totalDistance,
+    //   checkoutIds,
+    // };
     try {
       const response = await axios({
         method: "POST",
@@ -287,12 +321,17 @@ const SetDriverOrderPage = () => {
         headers: {
           "Content-Type": "application/json",
         },
-        data: formData,
+        data: data,
       });
 
       if (response) {
+        const selectedIds = selectedOdr.map((item) => item.id);
+        try {
+          const response = await sendToNextStatus({ ids: selectedIds });
+        } catch (error) {
+          console.error("Failed to fetch IOU balance:", error);
+        }
         router.push(`/${i18Lang}/admin/vehicleinfo`);
-        console.log("Create Delivery Route Response: ", response);
       }
     } catch (error) {
       console.error("Failed to fetch deliveryRoute endpoint:", error);
@@ -300,9 +339,6 @@ const SetDriverOrderPage = () => {
       setSubmitting(false);
     }
   };
-
-
-
   return (
     <div className="container-fluid">
       <div className="row">
@@ -334,7 +370,7 @@ const SetDriverOrderPage = () => {
           >
             {({ isSubmitting }) => (
               <Form>
-                <div className="text-end mb-3">
+                <div className="text-end mb-3 mt-3">
                   <button className="btn btn-sm btn-primary d-inline me-3">
                     Cancel
                   </button>
@@ -358,15 +394,16 @@ const SetDriverOrderPage = () => {
                 <div className="row pt-2">
                   <div className="col-12">
                     <div className="row">
-                      <div className="col-4">
+                      <div className="col-lg-4 col-12">
                         <Field
                           name="vehicleId"
                           label="Vehicle"
                           options={vehicleOptions}
                           component={Dropdown}
+                          onChange={handleSetSelectedVehicleName}
                         />
                       </div>
-                      <div className="col-4">
+                      <div className="col-lg-4 col-12">
                         <Field
                           name="driverId"
                           label="Driver"
@@ -374,7 +411,7 @@ const SetDriverOrderPage = () => {
                           component={Dropdown}
                         />
                       </div>
-                      <div className="col-4">
+                      <div className="col-lg-4 col-12">
                         <Field
                           name="deliveryOfficerId"
                           label="Delivery Officer"
@@ -398,6 +435,7 @@ const SetDriverOrderPage = () => {
           headers={headers}
           start={start}
           computeDistanceInKilometers={computeDistanceInKilometers}
+          setTotalDistance={setTotalDistance}
           widthPre="100%"
         />
       </div>

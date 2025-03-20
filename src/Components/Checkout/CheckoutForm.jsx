@@ -29,15 +29,15 @@ const CheckoutForm = (paymentOption) => {
   useEffect(() => {
     setAddressBillingCustomer(billingAddress);
     setAddressCheckoutCustomer(checkoutAddress);
-  }, [addressBillingCustomer, addressCheckoutCustomer]);
+  }, [billingAddress, billingAddress]);
 
   const [deliveryOption, setDeliveryOption] = useState("");
- 
-    return (
+
+  return (
     <Formik
       initialValues={{
-        billing_address: billingAddress ? billingAddress[0] :"",
-        shipping_address: billingAddress ? billingAddress[0] : "",
+        billing_address: billingAddress?.length ? billingAddress[0] : "",
+        shipping_address: billingAddress?.length ? billingAddress[0] : "",
         delivery_date: "",
         special_note: "",
       }}

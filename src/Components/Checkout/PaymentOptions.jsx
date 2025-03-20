@@ -20,12 +20,19 @@ const PaymentOptions = ({
 }) => {
   const { i18Lang } = useContext(I18NextContext);
   const { t } = useTranslation(i18Lang, "common");
+  const userType = localStorage.getItem("userType");
 
-  const paymentOptions = [
+  let paymentOptions = [
     { id: 1, name: "Cash", image: Cash },
-    { id: 2, name: "card", image: Card },
-    { id: 3, name: "credit", image: Credit },
+    { id: 2, name: "Card", image: Card },
+    { id: 3, name: "Credit", image: Credit },
   ];
+  
+  if (userType === "3") {
+    paymentOptions = [
+      { id: 3, name: "Credit", image: Credit },
+    ];
+  }
 
   const paymentOptionId = parseInt(
     paymentOptions?.filter((payment) => payment?.name === paymentOption)[0]?.id
@@ -57,7 +64,7 @@ swal('Please note that the credit payment will be processed only after manager a
             style={{
               boxShadow: "rgba(100, 100, 111, 0.2) 0px 7px 29px 0px",
               padding: "1vw",
-              paddingTop: "5vw",
+              paddingTop: "2vw",
             }}
           >
             <div className="checkout-detail">

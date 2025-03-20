@@ -8,8 +8,10 @@ import { ToastNotification } from "../../../Utils/CustomFunctions/ToastNotificat
 const baseUrl = process?.env?.API_BASE_URL;
 import Cookies from "js-cookie";
 import { toast } from "react-toastify";
+import CustomerContext from "@/Helper/CustomerContext";
 
 const PlaceOrder = ({ values, cId, deliveryCharges, total, discount,sub }) => {
+  const { billingAddress, checkoutAddress } = useContext(CustomerContext);
   const storedWarehouse = JSON.parse(localStorage.getItem("selectedWarehouse"));
   const { i18Lang } = useContext(I18NextContext);
   const { t } = useTranslation(i18Lang, "common");
@@ -67,31 +69,38 @@ const PlaceOrder = ({ values, cId, deliveryCharges, total, discount,sub }) => {
     }
   }
 
+  const userType = localStorage.getItem("userType");
+  const ExeID = localStorage.getItem("ExeID");
+
   const handleClick = () => {
+    const ad = values.billing_address ? values.billing_address : billingAddress[0];
     const data = {
       checkoutNo: "string",
       eCommerceCustomerId: customer.id,
       warehouseId: storedWarehouse.id,
-      latitude: values.billing_address.latitude,
-      longitude: values.billing_address.longitude,
+      latitude: ad.latitude || null,
+      longitude: ad.longitude || null,
       subTotal: sub,
       discount: discount,
+      isHandover: false,
       deliveryMethodId: values.delivery_description,
       totalAmount: total,
       isShippingAddressIsSameAsBillingAddress: true,
       cartItems: cartItems,
       deliveryDate: values.delivery_date,
       specialNote: values.special_note,
+      userType: parseInt(userType),
+      marketingExecutiveUserId:userType === "3" ? parseInt(ExeID)  : 0,
       paymentMethod:
         values.payment_options.paymentOption === "Cash"
           ? 1
-          : values.payment_options.paymentOption === "credit"
+          : values.payment_options.paymentOption === "Credit"
           ? 3
           : 2,
       deliverychargeAmount: deliveryCharges,
       checkoutAddresses: [
         isAuthString != "ManagerLogin"
-          ? values.shipping_address
+          ? ad
           : {
               address1: "matara",
               address2: "matara",
@@ -105,7 +114,8 @@ const PlaceOrder = ({ values, cId, deliveryCharges, total, discount,sub }) => {
             },
       ],
     };
-    if (values.billing_address) {
+
+    if (ad) {
       checkoutCart(data);
     } else {
       toast.info("Please Select Billing Address");

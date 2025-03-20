@@ -28,6 +28,21 @@ $color-handover-text: white;
     &.row-2 {
       background-color: $color-handover;
     }
+    &.row-3 {
+      background-color: $color-done;
+    }
+    &.row-4 {
+      background-color: $color-handover;
+    }
+    &.row-5 {
+      background-color: $color-done;
+    }
+    &.row-6 {
+      background-color: $color-handover;
+    }
+    &.row-7 {
+      background-color: $color-done;
+    }
     // Add more color classes as necessary...
   }
 

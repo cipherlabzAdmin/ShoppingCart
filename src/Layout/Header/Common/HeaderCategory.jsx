@@ -21,6 +21,7 @@ const HeaderCategory = ({ customClass, icon, dropDownClass }) => {
   const { i18Lang } = useContext(I18NextContext);
   const { t } = useTranslation(i18Lang, "common");
   const { themeOption } = useContext(ThemeOptionContext);
+  const userType = localStorage.getItem("userType");
 
   const [catId, setCatId] = useState();
 
@@ -44,91 +45,97 @@ const HeaderCategory = ({ customClass, icon, dropDownClass }) => {
   return (
     <Col xs={12}>
       <div className={`${customClass ? customClass : "header-nav"}`}>
-        <div className="header-nav-left">
-          <Btn className="deal-btn">
-            <span>{t(" AllCategories")}</span>
-            {icon ? icon : <RiAlignLeft style={{ color: "var(--theme)" }} />}
-          </Btn>
+        {userType != "1" ? (
+          <div className="header-nav-left">
+            <Btn className="deal-btn">
+              <span>{t(" AllCategories")}</span>
+              {icon ? icon : <RiAlignLeft style={{ color: "var(--theme)" }} />}
+            </Btn>
+            <div className="category-dropdown">
+              <div className="category-title">
+                <h5>{t("Categories")}</h5>
+                <Btn type="button" className="p-0 close-button text-content">
+                  <RiCloseLine />
+                </Btn>
+              </div>
 
-          <div className="category-dropdown">
-            <div className="category-title">
-              <h5>{t("Categories")}</h5>
-              <Btn type="button" className="p-0 close-button text-content">
-                <RiCloseLine />
-              </Btn>
-            </div>
-
-            <ul className="category-list">
-              {category && category.length > 0 &&
-                category?.map((elem, i) => (
-                  <li
-                    className="onhover-category-list"
-                    key={i}
-                    onMouseEnter={() => {
-                      setCatId(elem.id);
-                      showSubCategory();
-                    }}
-                    onMouseLeave={hideSubCategory}
-                  >
-                    <Link
-                      href={`/${i18Lang}/collections?category=${elem?.name}`}
-                      className="category-name"
+              <ul className="category-list">
+                {category &&
+                  category.length > 0 &&
+                  category?.map((elem, i) => (
+                    <li
+                      className="onhover-category-list"
+                      key={i}
+                      onMouseEnter={() => {
+                        setCatId(elem.id);
+                        showSubCategory();
+                      }}
+                      onMouseLeave={hideSubCategory}
                     >
-                      <div
-                        className="cat-item"
-                        style={{
-                          display: "flex",
-                          width: "100%",
-                          justifyContent: "space-between",
-                        }}
-                      >
-                        <h6>{elem?.name}</h6>
-                        <span style={{ marginLeft: "auto" }}>
-                          <RiArrowDropRightLine size="2em" />
-                        </span>
-                      </div>
-                    </Link>
-                  </li>
-                ))}
-            </ul>
-          </div>
-
-          <div
-            className="sub-category-dropdown"
-            id="sub-cat"
-            onMouseEnter={showSubCategory}
-            onMouseLeave={hideSubCategory}
-          >
-            <div className="sub-category-title">
-              <h5>{t("Categories")}</h5>
-              <Btn type="button" className="p-0 close-button text-content">
-                <RiCloseLine />
-              </Btn>
-            </div>
-
-            <ul className="sub-category-list">
-              {subCategory &&
-                subCategory
-                  .filter((subcategory) => subcategory.categoryId === catId)
-                  .map((elem, i) => (
-                    <li className="onhover-sub-category-list" key={i}>
                       <Link
-                        href={`/${i18Lang}/collections?subCategory=${elem?.name}`}
+                        href={`/${i18Lang}/collections?category=${elem?.name}`}
                         className="category-name"
                       >
-                        <div className="cat-item">
-                          <h6>{elem.name}</h6>
+                        <div
+                          className="cat-item"
+                          style={{
+                            display: "flex",
+                            width: "100%",
+                            justifyContent: "space-between",
+                          }}
+                        >
+                          <h6>{elem?.name}</h6>
+                          <span style={{ marginLeft: "auto" }}>
+                            <RiArrowDropRightLine size="2em" />
+                          </span>
                         </div>
                       </Link>
                     </li>
                   ))}
-            </ul>
+              </ul>
+            </div>
+
+            <div
+              className="sub-category-dropdown"
+              id="sub-cat"
+              onMouseEnter={showSubCategory}
+              onMouseLeave={hideSubCategory}
+            >
+              <div className="sub-category-title">
+                <h5>{t("Categories")}</h5>
+                <Btn type="button" className="p-0 close-button text-content">
+                  <RiCloseLine />
+                </Btn>
+              </div>
+
+              <ul className="sub-category-list">
+                {subCategory &&
+                  subCategory
+                    .filter((subcategory) => subcategory.categoryId === catId)
+                    .map((elem, i) => (
+                      <li className="onhover-sub-category-list" key={i}>
+                        <Link
+                          href={`/${i18Lang}/collections?subCategory=${elem?.name}`}
+                          className="category-name"
+                        >
+                          <div className="cat-item">
+                            <h6>{elem.name}</h6>
+                          </div>
+                        </Link>
+                      </li>
+                    ))}
+              </ul>
+            </div>
           </div>
-        </div>
-        <ClassicHeaderMenu />
+        ) : (
+          ""
+        )}
+
+        <ClassicHeaderMenu/>
 
         <WarehouseHeader />
-        <TodaysDeal />
+
+        {userType != "1" ? <TodaysDeal /> : ""}
       </div>
     </Col>
   );

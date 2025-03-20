@@ -4,7 +4,7 @@ import React, { useCallback, useEffect, useState } from "react";
 import { IoTrashOutline } from "react-icons/io5";
 import { toast } from "react-toastify";
 
-const ExtraItemTableComponent = ({ warehouseId, deleveryId }) => {
+const ExtraItemTableComponent = ({ warehouseId, deliveryId }) => {
   const [searchTerm, setSearchTerm] = useState("");
   const [quantity, setQuantity] = useState("");
   const [availableQuantity, setAvailableQuantity] = useState("");
@@ -48,7 +48,7 @@ const ExtraItemTableComponent = ({ warehouseId, deleveryId }) => {
   };
 
   const handleCreateExtraItems = async () => {
-    if (!deleveryId) {
+    if (!deliveryId) {
       toast.error("Please select a vehicle number");
       return;
     }
@@ -60,7 +60,7 @@ const ExtraItemTableComponent = ({ warehouseId, deleveryId }) => {
     }));
 
     const formData = {
-      deliveryRouteId: deleveryId,
+      deliveryRouteId: deliveryId,
       warehouseId,
       products,
     };
@@ -76,7 +76,9 @@ const ExtraItemTableComponent = ({ warehouseId, deleveryId }) => {
         }
       );
       if (response) {
-        console.log(response);
+        if(response.data.success){
+          toast.success("Extra Items Saved Successfully");
+        }
       }
     } catch (error) {
       console.error("Failed to fetch extraItem/Create:", error);

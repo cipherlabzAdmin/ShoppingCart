@@ -10,7 +10,8 @@ import withAuth from '@/Layout/AuthLayout';
 import Loader from '@/Layout/Loader';
 
 const CheckoutContent = () => {
-  const [paymentOption, setPaymentOption] = useState('Cash');
+  const userType = localStorage.getItem("userType");
+  const [paymentOption, setPaymentOption] = useState(userType === "3" ? 'Credit':'Cash');
   const [value, setValue] = useState();
   const [customer, setCustomer] = useState();
   const customerDetails = JSON.parse(localStorage.getItem('customerDetails')) || {};

@@ -30,6 +30,7 @@ const SelectWarehouse = ({closeModal}) => {
             localStorage.setItem('selectedWarehouse', JSON.stringify(result.result));
             setWarehouseSelect(true);
             closeModal();
+            location.reload();
           }
         
     

@@ -5,13 +5,14 @@ import { toast } from "react-toastify";
 
 const baseUrl = process?.env?.API_BASE_URL;
 
-const RunningConditionCheck = ({ routeId }) => {
+const RunningConditionCheck = ({ routeId,vehicle }) => {
   const [isEngineOil, setIsEngineOil] = useState(false);
   const [isAir, setIsAir] = useState(false);
   const [isWater, setIsWater] = useState(false);
   const [isBreak, setIsBreak] = useState(false);
   const [isBodyCondition, setIsBodyCondition] = useState(false);
   // CSS Grid style for the Running Condition Check section
+  const storedWarehouse = JSON.parse(localStorage.getItem("selectedWarehouse"));
   const runningConditionCheckStyle = {
     display: "grid",
     gridTemplateColumns: "repeat(auto-fit, minmax(120px, 1fr))", // creates as many columns as needed with a minimum width of 120px
@@ -51,10 +52,36 @@ const RunningConditionCheck = ({ routeId }) => {
     }
   };
   const handleSubmit = async () => {
-    if(routeId === null){
+    if (routeId === null) {
       toast.error("Please Select Vehicle Number");
       return;
     }
+
+    const data = {
+      warehouseId: storedWarehouse.id,
+      vehicleId: vehicle.vehicleId,
+      vehicleNumber: vehicle.vehicleNumber,
+      driverId: vehicle.driverId,
+      deliveryOfficerId: vehicle.deliveryOfficerId,
+      openingMeterReading: vehicle.openingMeterReading || 0,
+      openingMeterReadingImageUrl: vehicle.openingMeterReadingImageUrl,
+      expectedEndMeterReading: vehicle.expectedEndMeterReading,
+      distanceToFinalEndpoint: vehicle.distanceToFinalEndpoint,
+      totalDistance: vehicle.totalDistance || 0,
+      IsEngineOil: isEngineOil,
+      IsAir: isAir,
+      IsWater: isWater,
+      IsBrake: isBreak,
+      IsCondition: isBodyCondition,
+      isCompleted: false,
+      isReturnStockReturned: false,
+      isVehicleStockReturned: false,
+      isDownPaymentsSettled: false,
+      allocatedIOUAmount: 0,
+      routeDistanceInKM: 0,
+      id: routeId,
+    };
+
     try {
       const response = await axios({
         method: "POST",
@@ -62,21 +89,14 @@ const RunningConditionCheck = ({ routeId }) => {
         headers: {
           "Content-Type": "application/json",
         },
-        data: JSON.stringify({
-          Id: parseInt(routeId),
-          IsEngineOil: isEngineOil,
-          IsAir: isAir,
-          IsWater: isWater,
-          IsBrake: isBreak,
-          IsCondition: isBodyCondition,
-        }),
+        data: JSON.stringify(data),
       });
-      if(response.data.success){
+      if (response.data.success) {
         toast.success("Running Condition Check Updated Successsfully");
       }
     } catch (error) {
       console.error("Failed to fetch deliveryRoute endpoint:", error);
-    } 
+    }
   };
 
   return (
@@ -151,7 +171,11 @@ const RunningConditionCheck = ({ routeId }) => {
           </div>
         </div>
         <div className="d-flex mt-2">
-          <button type="button" onClick={handleSubmit} className="btn btn-sm btn-secondary theme-bg-color text-white d-inline">
+          <button
+            type="button"
+            onClick={handleSubmit}
+            className="btn btn-sm btn-secondary theme-bg-color text-white d-inline"
+          >
             save
           </button>
         </div>

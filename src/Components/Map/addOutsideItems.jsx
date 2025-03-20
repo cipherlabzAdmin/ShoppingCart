@@ -1,10 +1,11 @@
+import getDeliveryRouteService from "@/app/api/admin/ecommerce/getDeliveryRouteService";
 import getProducts from "@/app/api/admin/ecommerce/productService";
 import axios from "axios";
 import React, { useCallback, useEffect, useState } from "react";
 import { IoTrashOutline } from "react-icons/io5";
 import { toast } from "react-toastify";
 
-const OutsideItemTableComponent = ({ warehouseId, deleveryId }) => {
+const OutsideItemTableComponent = ({ warehouseId, deliveryId}) => {
   const [searchTerm, setSearchTerm] = useState("");
   const [quantity, setQuantity] = useState("");
   const [availableQuantity, setAvailableQuantity] = useState("");
@@ -14,30 +15,33 @@ const OutsideItemTableComponent = ({ warehouseId, deleveryId }) => {
   const [filteredProducts, setFilteredProducts] = useState([]);
   const baseUrl = process?.env?.API_BASE_URL;
 
-  const fetchProducts = useCallback(async (keyword) => {
-    setLoading(true);
-    try {
-      const response = await getProducts(
-        {
-          keyword: keyword || "",
-          isQuantityRequired: true,
-          isActive: true,
-          warehouseId: warehouseId,
-          sortType: 1,
-          skipCount: 0,
-          maxResultCount: 200,
-        },
-        "product/GetAll"
-      );
-      if (response) {
-        setProducts(response.result.items);
+    const fetchProducts = useCallback(
+    async (keyword) => {
+      setLoading(true);
+      try {
+        const response = await getProducts(
+          {
+            keyword: keyword || "",
+            isQuantityRequired: true,
+            isActive: true,
+            warehouseId: warehouseId,
+            sortType: 1,
+            skipCount: 0,
+            maxResultCount: 200,
+          },
+          "product/GetAll"
+        );
+        if (response) {
+          setProducts(response.result.items);
+        }
+      } catch (error) {
+        console.error("Failed to fetch product/GetAll:", error);
+      } finally {
+        setLoading(false);
       }
-    } catch (error) {
-      console.error("Failed to fetch product/GetAll:", error);
-    } finally {
-      setLoading(false);
-    }
-  }, [warehouseId]);
+    },
+    [warehouseId]
+  );
 
   useEffect(() => {
     fetchProducts();
@@ -48,7 +52,7 @@ const OutsideItemTableComponent = ({ warehouseId, deleveryId }) => {
   };
 
   const handleCreateOutsideItems = async () => {
-    if (!deleveryId) {
+    if (!deliveryId) {
       toast.error("Please select a vehicle number");
       return;
     }
@@ -56,32 +60,27 @@ const OutsideItemTableComponent = ({ warehouseId, deleveryId }) => {
     const products = addedItems.map((item) => ({
       productId: item.id,
       productCode: item.code,
-      quantity: item.quantity,
       productName: item.name,
-      availableQuantity: item.availableQuantity,
-    }));
-
-    const formData = {
-      deliveryRouteId: deleveryId,
-      warehouseId,
-      products,
-    };
+      quantity: item.quantity,
+    }));    
 
     try {
       const response = await axios.post(
-        `${baseUrl}services/ecommerce/outsideItem/CreateOutsideItems?deliveryRouteId=${deleveryId}`,
+        `${baseUrl}services/ecommerce/outsideItem/CreateOutsideItems?deliveryRouteId=${deliveryId}`,
+        products,
         {
           headers: {
             "Content-Type": "application/json",
           },
-          data: formData,
         }
       );
       if (response) {
-        console.log(response);
+        if (response.data.success) {
+          toast.success("Outside Items Saved Successfully");
+        }
       }
     } catch (error) {
-     // console.error("Failed to fetch ", error);
+      // console.error("Failed to fetch ", error);
     }
   };
 
@@ -237,7 +236,10 @@ const OutsideItemTableComponent = ({ warehouseId, deleveryId }) => {
           ))}
         </tbody>
       </table>
-      <button onClick={handleCreateOutsideItems} className="btn btn-sm text-white bg-success">
+      <button
+        onClick={handleCreateOutsideItems}
+        className="btn btn-sm text-white bg-success"
+      >
         Save Outside Items
       </button>
     </div>
@@ -245,3 +247,4 @@ const OutsideItemTableComponent = ({ warehouseId, deleveryId }) => {
 };
 
 export default OutsideItemTableComponent;
+

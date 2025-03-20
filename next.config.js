@@ -15,13 +15,12 @@ module.exports = (phase) => {
     API_PROD_URL: (() => {
       if (isDev) return "http://localhost:3000/api/";
       if (isProd) {
-        // return "https://www.smartpickpack.com/api/";
-        return "https://pick-pack-oj5w.vercel.app/api/";
+        return "https://www.smartpickpack.com/api/";
       }
       if (isStaging) return "http://localhost:3000/api/";
       return "RESTURL_SPEAKERS:not (isDev,isProd && !isStaging,isProd && isStaging)";
     })(),
-    API_BASE_URL: "https://pickpackuat.biscare.live/api/",
+    API_BASE_URL: "https://pickpack.biscare.live/api/",
   };
   const redirects = () => {
     return [

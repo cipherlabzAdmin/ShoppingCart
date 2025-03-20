@@ -5,15 +5,29 @@ import { useTranslation } from "@/app/i18n/client";
 import Btn from "@/Elements/Buttons/Btn";
 import CustomModal from "./CustomModal";
 import { useRouter } from "next/navigation";
+import Cookies from "js-cookie";
 
 const ConfirmationModal = ({ modal, setModal, isLoading, confirmFunction }) => {
   const { i18Lang } = useContext(I18NextContext);
   const { t } = useTranslation(i18Lang, "common");
   const router = useRouter();
+  const userType = localStorage.getItem("userType");
 
   const handleConfirm = () => {
-    if (confirmFunction) confirmFunction(); 
-    router.push(`/${i18Lang}/theme/paris`);
+    if (confirmFunction) confirmFunction();
+    Cookies.remove("uat", { path: "/" });
+    Cookies.remove("uatTemp", { path: "/" });
+    localStorage.setItem("userType", 2);
+
+    router.push(
+      `/${i18Lang}/${
+        userType === "1"
+          ? "admin"
+          : userType === "3"
+          ? "executive"
+          : "theme/paris"
+      }`
+    );
   };
 
   return (

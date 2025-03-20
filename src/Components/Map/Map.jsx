@@ -198,8 +198,59 @@ const MapComponent = ({ handleGetLocationClick, setModal, type }) => {
         >
           {/* {selectedPlace && <Marker position={searchLngLat} />}
           {currentLocation && <Marker position={currentLocation} />} */}
-          {selectedPlace && searchLngLat && <Marker position={searchLngLat} />}
-          {currentLocation && <Marker position={currentLocation} />}
+          {/* {selectedPlace && searchLngLat && <Marker position={searchLngLat} />}
+          {currentLocation && <Marker position={currentLocation} />} */}
+
+          {selectedPlace && searchLngLat && (
+            <Marker
+              position={currentLocation || searchLngLat || center}
+              draggable={true}
+              onDragEnd={async (event) => {
+                const lat = event.latLng.lat();
+                const lng = event.latLng.lng();
+                setCurrentLocation({ lat, lng });
+
+                // Get address from new coordinates
+                try {
+                  const results = await getGeocode({ location: { lat, lng } });
+                  if (results.length > 0) {
+                    setAddress(results[0].formatted_address);
+                    setLocatedAddress(results[0].formatted_address);
+                  } else {
+                    setAddress(`${lat}, ${lng}`);
+                  }
+                } catch (error) {
+                  console.error("Geocode error:", error);
+                  setAddress(`${lat}, ${lng}`);
+                }
+              }}
+            />
+          )}
+          {currentLocation && (
+            <Marker
+              position={currentLocation || searchLngLat || center}
+              draggable={true}
+              onDragEnd={async (event) => {
+                const lat = event.latLng.lat();
+                const lng = event.latLng.lng();
+                setCurrentLocation({ lat, lng });
+
+                // Get address from new coordinates
+                try {
+                  const results = await getGeocode({ location: { lat, lng } });
+                  if (results.length > 0) {
+                    setAddress(results[0].formatted_address);
+                    setLocatedAddress(results[0].formatted_address);
+                  } else {
+                    setAddress(`${lat}, ${lng}`);
+                  }
+                } catch (error) {
+                  console.error("Geocode error:", error);
+                  setAddress(`${lat}, ${lng}`);
+                }
+              }}
+            />
+          )}
         </GoogleMap>
       </div>
     </>
@@ -227,7 +278,6 @@ const PlacesAutocomplete = ({ setSelected, setAddress, showAddress }) => {
 
   return (
     <Combobox onSelect={handleSelect} style={{ zIndex: 10 }}>
-      
       <div class="row">
         <div class="input-group">
           <ComboboxInput

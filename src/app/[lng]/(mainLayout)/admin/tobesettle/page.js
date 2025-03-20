@@ -9,6 +9,8 @@ import getDriverDetails from "@/app/api/admin/ecommerce/driverService";
 import getVehiclesByIdService from "@/app/api/admin/ecommerce/getVehiclesByIdService";
 import getDeliveryRouteService from "@/app/api/admin/ecommerce/getDeliveryRouteService";
 import { toast } from "react-toastify";
+import getVehicleDetails from "@/app/api/admin/ecommerce/getVehicleDetails";
+import axios from "axios";
 
 const ToBeSettlePage = () => {
   const router = useRouter();
@@ -16,33 +18,97 @@ const ToBeSettlePage = () => {
   const { i18Lang } = useContext(I18NextContext);
   const [officers, setOfficers] = useState([]);
   const [vehicles, setVehicles] = useState([]);
-  const [selectedOfficers, setSelectedOfficers] = useState(localStorage.getItem("selectedOfficer") || null);
-  const [selectedVehicle, setSelectedVehicle] = useState(localStorage.getItem("selectedVehicle") || null);
+  const [vehicle, setVehicle] = useState({});
+  const baseUrl = process?.env?.API_BASE_URL;
+  const [selectedOfficers, setSelectedOfficers] = useState(
+    localStorage.getItem("selectedOfficer") || null
+  );
+  const [selectedVehicle, setSelectedVehicle] = useState(
+    localStorage.getItem("selectedVehicle") || null
+  );
   const [deliveryRoute, setDeliveryRoute] = useState(null);
 
-  const handleSubmit = () => {
-    //alert();
-    localStorage.removeItem("selectedOfficer");
-    localStorage.removeItem("selectedVehicle");
-    window.location.reload();
+  const returnstock = localStorage.getItem("return-stock");
+  const vehiclestock = localStorage.getItem("vehicle-stock");
+  const downpaymentcheck = localStorage.getItem("downpayment");
+
+  const handleSubmit = async () => {
+    
+    if (!returnstock) {
+      toast.info("Please Enter Return stock");
+      return;
+    }
+    if (!vehiclestock) {
+      toast.info("Please Enter Vehicle stock");
+      return;
+    }
+    if (!downpaymentcheck) {
+      toast.info("Please Enter Downpayment Details");
+      return;
+    }
+    const data = {
+      warehouseId: storedWarehouse.id,
+      vehicleId: selectedVehicle,
+      vehicleNumber: vehicle.vehicleNumber,
+      driverId: vehicle.driverId,
+      deliveryOfficerId: selectedOfficers,
+      openingMeterReading: vehicle.openingMeterReading || 0,
+      openingMeterReadingImageUrl: vehicle.openingMeterReadingImageUrl,
+      expectedEndMeterReading: vehicle.expectedEndMeterReading,
+      distanceToFinalEndpoint: vehicle.distanceToFinalEndpoint,
+      totalDistance: vehicle.totalDistance || 0,
+      isEngineOil: vehicle.isEngineOil,
+      isAir: vehicle.isAir,
+      isWater: vehicle.isWater,
+      isBrake: vehicle.isBrake,
+      isCondition: vehicle.isCondition,
+      isCompleted: true,
+      isReturnStockReturned: true,
+      isVehicleStockReturned: true,
+      isDownPaymentsSettled: true,
+      allocatedIOUAmount: 0,
+      routeDistanceInKM: 0,
+      id: vehicle.id,
+    };
+    try {
+      const response = await axios.post(
+        `${baseUrl}services/ecommerce/deliveryRoute/Update`,
+        data,
+        { headers: { "Content-Type": "application/json" } }
+      );
+
+      if (response.data.success) {
+        toast.success("Updated Successfully");
+        localStorage.removeItem("selectedOfficer");
+        localStorage.removeItem("selectedVehicle");
+        localStorage.removeItem("return-stock");
+        localStorage.removeItem("vehicle-stock");
+        localStorage.removeItem("downpayment");
+        window.location.href = `/${i18Lang}/admin/driver`;
+      }
+    } catch (error) {
+      console.error("Failed to fetch items:", error);
+    }
   };
   const handleReturnStock = () => {
-    if(deliveryRoute){
+    localStorage.setItem("return-stock", 1);
+    if (deliveryRoute) {
       router.push(`/${i18Lang}/admin/returnstock?route=${deliveryRoute}`);
-    }else{
+    } else {
       toast.info("Please Select Delivery Officer and Vehicle Number");
     }
   };
   const handleVehicleStock = () => {
-    if(deliveryRoute){
+    localStorage.setItem("vehicle-stock", 1);
+    if (deliveryRoute) {
       router.push(`/${i18Lang}/admin/vehiclestock?route=${deliveryRoute}`);
-    }else{
+    } else {
       toast.info("Please Select Delivery Officer and Vehicle Number");
     }
-    
   };
   const handleDownPayment = () => {
-    router.push(`/${i18Lang}/admin/downpayment`);
+    localStorage.setItem("downpayment", 1);
+    router.push(`/${i18Lang}/admin/downpayment?route=${deliveryRoute}`);
   };
 
   const handleSetOfficer = async (event) => {
@@ -54,9 +120,19 @@ const ToBeSettlePage = () => {
 
   const handleSetDeliveryRoute = async (event) => {
     const selectedValue = event.target.value;
-    await fetchDeliveryRoute(selectedOfficers,selectedValue);
+    await fetchDeliveryRoute(selectedOfficers, selectedValue);
     setSelectedVehicle(selectedValue);
     localStorage.setItem("selectedVehicle", selectedValue);
+    fetchVehicleDetails(selectedOfficers,selectedValue);
+  };
+
+  const fetchVehicleDetails = async (deliveryOfficerId,vehicleId) => {
+    try {
+      const response = await getVehicleDetails(deliveryOfficerId,vehicleId);
+      setVehicle(response.result);
+    } catch (error) {
+      console.error("Failed to fetch vehicles:", error);
+    }
   };
 
   const fetchVehicles = async (driverId) => {
@@ -67,9 +143,9 @@ const ToBeSettlePage = () => {
       console.error("Failed to fetch vehicles:", error);
     }
   };
-  const fetchDeliveryRoute = async (driverId,vehicleId) => {
+  const fetchDeliveryRoute = async (driverId, vehicleId) => {
     try {
-      const response = await getDeliveryRouteService(driverId,vehicleId);
+      const response = await getDeliveryRouteService(driverId, vehicleId);
       setDeliveryRoute(response.result.id);
     } catch (error) {
       console.error("Failed to fetch vehicles:", error);
@@ -104,11 +180,13 @@ const ToBeSettlePage = () => {
         fetchDrivers();
       }
     }
-    if(selectedOfficers){
+    if (selectedOfficers) {
       fetchVehicles(selectedOfficers);
     }
-    if(selectedVehicle && selectedVehicle){
-      fetchDeliveryRoute(selectedOfficers,selectedVehicle);
+
+    if (selectedVehicle && selectedOfficers) {
+      fetchDeliveryRoute(selectedOfficers, selectedVehicle);
+      fetchVehicleDetails(selectedOfficers,selectedVehicle);
     }
   }, []);
 

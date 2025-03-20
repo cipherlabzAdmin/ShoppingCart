@@ -15,22 +15,22 @@ export const headerMenu = [
     path: '/theme/paris'
    
   },
-  {
-    id: 2,
-    title: 'Offers',
-    styleType: 'link',
-    slider: 'product',
-    path: '/offer'
+  // {
+  //   id: 2,
+  //   title: 'Offers',
+  //   styleType: 'link',
+  //   slider: 'product',
+  //   path: '/offer'
    
-  },
-  {
-    id: 3,
-    title: 'About Us',
-    styleType: 'link',
-    slider: 'banner',
-    path: '/about-us',
+  // },
+  // {
+  //   id: 3,
+  //   title: 'About Us',
+  //   styleType: 'link',
+  //   slider: 'banner',
+  //   path: '/about-us',
    
-  },
+  // },
   {
     id: 4,
     title: 'Contact Us',

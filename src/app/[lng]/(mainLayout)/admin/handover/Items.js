@@ -7,14 +7,17 @@ import { toast } from "react-toastify";
 
 const baseUrl = process?.env?.API_BASE_URL;
 
-const Items = ({ items }) => {
+const Items = ({ items,onRemoveItems ,onCheckItems}) => {
   const [currentItems, setCurrentItems] = useState([]);
   const [removedItems, setRemovedItems] = useState([]);
+  const [checked, setChecked] = useState([]);
   const searchParams = useSearchParams();
   const checkoutId = searchParams.get("id");
+
+ 
    
 
-  useEffect(() => {
+  useEffect(() => {    
     const storedRemovedItems = JSON.parse(localStorage.getItem("RemovedItems")) || [];
     setRemovedItems(storedRemovedItems);
     setCurrentItems(
@@ -40,7 +43,9 @@ const Items = ({ items }) => {
     setCurrentItems(updatedItems);
     setRemovedItems(prevRemoved => {
       const updatedRemoved = [...prevRemoved, itemToRemove];
-      localStorage.setItem("RemovedItems", JSON.stringify(updatedRemoved));
+      if (onRemoveItems) {
+        onRemoveItems(updatedRemoved);
+      }
       return updatedRemoved;
     });
   };
@@ -52,8 +57,10 @@ const Items = ({ items }) => {
   };
 
   const handleHandover = async () => {
-    const checkedItems = currentItems.filter(item => item.isChecked);
-    localStorage.setItem("checkedItems", JSON.stringify(checkedItems));
+    const checkedItems = currentItems.filter(item => item.isChecked);    
+    if (onCheckItems) {
+      onCheckItems(checkedItems);
+    }
     if (checkedItems.length === 0) {
       toast.error("No Items Available");
       return;

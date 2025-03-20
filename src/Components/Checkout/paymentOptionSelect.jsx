@@ -3,7 +3,7 @@ import { Label, Input } from "reactstrap";
 import { ModifyString } from "@/Utils/CustomFunctions/ModifyString";
 import Image from "next/image";
 
-const PaymentOptionSelect = ({ option, selected, onSelect, paymentOption }) => {
+const PaymentOptionSelect = ({  option, selected, onSelect, paymentOption }) => {
   return (
     <Label
       className="form-check-label paymentOptionImg"

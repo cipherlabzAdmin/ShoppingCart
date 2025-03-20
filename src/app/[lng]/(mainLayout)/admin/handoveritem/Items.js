@@ -129,7 +129,6 @@ const ReturnItems = ({ items,checkoutId ,customerId}) => {
                     value={selectedReasons[index]}
                     onChange={(e) => handleReasonChange(index, e.target.value)}
                   >
-                    <option value="">Please Select Reason</option>
                     {reasons.map((reason, idx) => (
                       <option key={idx} value={reason.item1}>
                         {reason.item2}

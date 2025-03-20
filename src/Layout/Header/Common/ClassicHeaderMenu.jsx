@@ -10,8 +10,10 @@ const ClassicHeaderMenu = () => {
   const { i18Lang } = useContext(I18NextContext);
   const { mobileSideBar, setMobileSideBar } = useContext(ThemeOptionContext);
   const { t } = useTranslation(i18Lang, 'common');
+  const userType = localStorage.getItem("userType");
+
   return (
-    <div className='header-nav-middle'>
+    <div className={`${userType === "2" ? "header-nav-middle" : ""}`}>
       <div className='main-nav navbar navbar-expand-xl navbar-light navbar-sticky'>
         <div className={`offcanvas offcanvas-collapse order-xl-2 ${mobileSideBar ? 'show' : ''}`} id='primaryMenu'>
           <div className='offcanvas-header navbar-shadow'>

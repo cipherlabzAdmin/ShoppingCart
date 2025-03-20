@@ -851,7 +851,7 @@ header {
 
               .delivery-detail {
                 @include mq-max(4xl) {
-                  display: none;
+                  // display: none;
                 }
 
                 h6 {

@@ -175,7 +175,7 @@ async function Register(data) {
                   id="flexCheckDefault"
                 />
                 <Label className="form-check-label" htmlFor="flexCheckDefault">
-                  {t("Iagreewith")}
+                  {t("Iagreewith")}{" "}
                   <span>{t("Terms")}</span> {t("and")}{" "}
                   <span>{t("Privacy")}</span>
                 </Label>

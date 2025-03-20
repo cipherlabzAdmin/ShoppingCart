@@ -730,7 +730,7 @@ header {
     font-size: 20px;
     color: $title-color;
     -webkit-text-fill-color: $title-color;
-    -webkit-opacity: 1;
+    // -webkit-opacity: 1;
 
     @include mq-max(md) {
       margin-right: 0;

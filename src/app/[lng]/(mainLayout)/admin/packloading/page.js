@@ -6,6 +6,7 @@ import AdminMapDirectionComponent from "@/Components/Map/AdminDirection";
 import axios from "axios";
 import TableComponent from "@/Components/Map/tableMap";
 import Textbox from "@/Components/Map/Textbox";
+import withAuth from "@/Components/AuthHOC/withAuth";
 import Dropdown from "@/Components/Map/Dropdown";
 import SearchBar from "@/Components/Map/SearchBar";
 import { Formik, Form, Field } from "formik";
@@ -18,28 +19,42 @@ import { toast } from "react-toastify";
 import Cookies from "js-cookie";
 import ExtraItemTableComponent from "@/Components/Map/addExtraItems";
 import OutsideItemTableComponent from "@/Components/Map/addOutsideItems";
+import getVehicleDetails from "@/app/api/admin/ecommerce/getVehicleDetails";
+import sendToNextStatus from "@/app/api/admin/ecommerce/sendToNext";
+import { AuthProvider } from "@/Helper/AuthContext/AuthContext";
 
 const baseUrl = process?.env?.API_BASE_URL;
 
-const PackLoading = () => {
+const SetPackLoadingPage = () => {
   // Start location in Colombo, Sri Lanka
   let { Auth } = "";
   Auth = Cookies.get("uatTemp");
   const currentUser = JSON.parse(Auth);
-  const start = { lat: 6.977079, lng: 80.861244 };
+
   const [endpoints, setEndpoints] = useState([]);
   const storedWarehouse = JSON.parse(localStorage.getItem("selectedWarehouse"));
+  const startLat =
+    storedWarehouse && storedWarehouse.latitude
+      ? storedWarehouse.latitude
+      : "7.084";
+  const startLng =
+    storedWarehouse && storedWarehouse.longitude
+      ? storedWarehouse.longitude
+      : "80.0098";
+  const start = { lat: parseFloat(startLat), lng: parseFloat(startLng) };
   const [warehouseId, setWarehouseId] = useState("");
-  const [deleveryId, setdeleveryId] = useState("");
+  const [deliveryId, setdeliveryId] = useState("");
   const [routeId, setRouteId] = useState(null);
   const [orderDetails, setOrderDetails] = useState([]);
   const [vehicles, setVehicles] = useState([]);
+  const [vehicle, setVehicle] = useState({});
   const [ricePacks, setRicePacks] = useState([]);
   const [extraItems, setExtraItems] = useState([]);
   const [extraKeyword, setExtraKeyword] = useState("");
   const [outsideItems, setOutsideItems] = useState([]);
   const [outsideKeyword, setOutsideKeyword] = useState("");
   const [products, setProducts] = useState([]);
+  const [officer, setOfficer] = useState([]);
   const [extraProducts, setExtraProducts] = useState([]);
   const [outsideProducts, setOutsideProducts] = useState([]);
   const [product, setProduct] = useState([]);
@@ -47,7 +62,6 @@ const PackLoading = () => {
   const [matchingItem, setMatchingItem] = useState({});
   const [matchingItems, setMatchingItems] = useState([]);
 
-  
   const validationSchema = Yup.object({
     id: Yup.string().required("Vehicle Number is required"),
     distanceToFinalEndpoint: Yup.string().required(
@@ -94,31 +108,53 @@ const PackLoading = () => {
     }
   };
 
-  const handleSetVehicle = (value) => {
+  const fetchVehicleDetails = async (devOfficer, vehicleId) => {
+    try {
+      const response = await getVehicleDetails(devOfficer, vehicleId);
+      if (response.result) {
+        setVehicle(response.result);
+      }
+    } catch (error) {
+      console.error("Failed to fetch vehicles:", error);
+    }
+  };
+
+  const handleSetVehicle = (value, vehicleId, devOfficer) => {
     fetchEndpoints(value);
+    fetchVehicleDetails(devOfficer, vehicleId);
   };
 
   const handleMatch = (item) => {
-    if (item) { 
+    if (item) {
       setMatchingItem(item);
       setMatchingItems((prevItems) => [...prevItems, item]);
     }
   };
 
-  const handleNext = () =>{
-    if(!deleveryId){
+  const handleNextStatus = async () => {
+    const selectedIds = matchingItems.map((item) => item.id);
+    try {
+      const response = await sendToNextStatus({ ids: selectedIds });
+    } catch (error) {
+      console.error("Failed to fetch IOU balance:", error);
+    }
+  };
+
+  const handleNext = async (values) => {
+    if (!deliveryId) {
       toast.info("Please Select Vehicle No");
       return;
     }
-    if(matchingItems.length <= 0){
+    if (matchingItems.length <= 0) {
       toast.info("Please Select Orders");
       return;
     }
 
-    localStorage.setItem("route", deleveryId);
+    localStorage.setItem("route", deliveryId);
     localStorage.setItem("matchingOrders", JSON.stringify(matchingItems));
+    await handleNextStatus();
     window.location.href = "./handover";
-  }
+  };
 
   useEffect(() => {
     if (storedWarehouse) {
@@ -129,12 +165,16 @@ const PackLoading = () => {
             warehouseId: wId,
             skipCount: 0,
             maxResultCount: 100,
+            isCompleted: false,
+            sortType: 1,
           });
           if (response) {
             const results = response.result.items.flatMap((element) => ({
               id: element.type,
               label: element.vehicleNumber,
               value: element.id,
+              vehicleId: element.vehicleId,
+              deliveryOfficerId: element.deliveryOfficerId,
             }));
             setVehicles(results);
           }
@@ -236,7 +276,7 @@ const PackLoading = () => {
     try {
       const postData = {
         warehouseId: storedWarehouse.id,
-        status: 8,
+        status: 9,
         sortType: 1,
         skipCount: 0,
         maxResultCount: 100,
@@ -266,7 +306,6 @@ const PackLoading = () => {
     }
   }, []);
 
-
   const fetchProducts = useCallback(
     async (keyword) => {
       try {
@@ -290,7 +329,6 @@ const PackLoading = () => {
             setProducts(response.result.items);
           }
           setExtraProducts(response.result.items);
-          //console.log("product/GetAll response: ", response.result);
         }
       } catch (error) {
         console.error("Failed to fetch product/GetAll:", error);
@@ -313,7 +351,7 @@ const PackLoading = () => {
         setOutsideProducts([]);
       }
     }
-  }, [extraKeyword, outsideKeyword, fetchProducts,extraProducts]);
+  }, [extraKeyword, outsideKeyword, fetchProducts, extraProducts]);
 
   const ricePackHeaders = [
     { key: "productCode", label: "ITEM CODE" },
@@ -332,28 +370,62 @@ const PackLoading = () => {
         <div className="col-12 col-md-6">
           <Formik
             initialValues={{
-              id: "",
-              distanceToFinalEndpoint: "",
-              openingMeterReading: "",
-              expectedEndMeterReading: "",
-              isEngineOil: false,
-              isAir: false,
-              isWater: false,
-              isBrake: false,
-              isCondition: false,
+              id: parseInt(vehicle.id),
+              distanceToFinalEndpoint: parseFloat(
+                vehicle.distanceToFinalEndpoint
+              ),
+              openingMeterReading: parseFloat(vehicle.openingMeterReading),
+              expectedEndMeterReading: parseFloat(
+                vehicle.expectedEndMeterReading
+              ),
+              openingMeterReadingImageUrl: "",
+              totalDistance: parseFloat(vehicle.totalDistance),
+              isEngineOil: vehicle.isEngineOil,
+              isAir: vehicle.isAir,
+              isWater: vehicle.isWater,
+              isBrake: vehicle.isBrake,
+              isCondition: vehicle.isCondition,
+              isCompleted: vehicle.isCompleted,
+              vehicleId: vehicle.vehicleId,
+              vehicleNumber: vehicle.vehicleNumber,
+              driverId: vehicle.driverId,
+              deliveryOfficerId: vehicle.deliveryOfficerId,
+              isReturnStockReturned: false,
+              isVehicleStockReturned: false,
+              isDownPaymentsSettled: false,
+              routeDistanceInKM: parseFloat(vehicle.routeDistanceInKM),
             }}
             validationSchema={validationSchema}
             onSubmit={async (values, { setSubmitting }) => {
-              //console.log("Form values ", values);
-              // Include warehouseId in the form data
               const formData = {
-                ...values,
+                id: parseInt(vehicle.id),
+                distanceToFinalEndpoint: parseFloat(
+                  vehicle.distanceToFinalEndpoint
+                ),
+                openingMeterReading: parseFloat(vehicle.openingMeterReading),
+                expectedEndMeterReading: parseFloat(
+                  vehicle.expectedEndMeterReading
+                ),
+                openingMeterReadingImageUrl: "",
+                totalDistance: parseFloat(vehicle.totalDistance),
+                isEngineOil: vehicle.isEngineOil,
+                isAir: vehicle.isAir,
+                isWater: vehicle.isWater,
+                isBrake: vehicle.isBrake,
+                isCondition: vehicle.isCondition,
+                isCompleted: vehicle.isCompleted,
+                vehicleId: vehicle.vehicleId,
+                vehicleNumber: vehicle.vehicleNumber,
+                driverId: vehicle.driverId,
+                deliveryOfficerId: vehicle.deliveryOfficerId,
+                isReturnStockReturned: false,
+                isVehicleStockReturned: false,
+                isDownPaymentsSettled: false,
+                routeDistanceInKM: parseFloat(vehicle.routeDistanceInKM),
                 warehouseId,
               };
-              //console.log("Form Data:", formData);
               setSubmitting(false);
 
-              // Handle form submission
               try {
                 const response = await axios({
                   method: "POST",
@@ -364,29 +436,11 @@ const PackLoading = () => {
                   data: formData,
                 });
                 if (response) {
-                  console.log("delivery Route Response: ", response);
                   window.location.href = "./handover";
                 }
-
               } catch (error) {
                 console.error("Failed to fetch endpoints:", error);
               }
-
-              // try {
-              //   const response = await axios({
-              //     method: "G",
-              //     url: `${baseUrl}services/ecommerce/checkout/SendCheckoutStatusToNextStage`,
-              //     headers: {
-              //       "Content-Type": "application/json",
-              //     },
-              //     // data: formData,
-              //   });
-              //   if (response) {
-              //     console.log("delivery Route Response: ", response);
-              //   }
-              // } catch (error) {
-              //   console.error("Failed to fetch endpoints:", error);
-              // }
             }}
           >
             {({ isSubmitting, handleChange }) => (
@@ -421,8 +475,17 @@ const PackLoading = () => {
                             options={vehicles}
                             component={Dropdown}
                             onChange={(e) => {
-                              handleSetVehicle(e.target.value);
-                              setdeleveryId(e.target.value);
+                              const selectedVehicle = vehicles.find(
+                                (v) =>
+                                  String(v.value) === String(e.target.value)
+                              );
+                              setOfficer(selectedVehicle.deliveryOfficerId);
+                              handleSetVehicle(
+                                e.target.value,
+                                selectedVehicle.vehicleId,
+                                selectedVehicle.deliveryOfficerId
+                              );
+                              setdeliveryId(e.target.value);
                               setRouteId(e.target.value);
                               fetchExtraItems(e.target.value);
                               fetchRicePacks(e.target.value);
@@ -492,7 +555,10 @@ const PackLoading = () => {
                     </div> */}
                   </div>
                   <div className={"section"}>
-                    <RunningConditionCheck routeId={routeId} />
+                    <RunningConditionCheck
+                      routeId={routeId}
+                      vehicle={vehicle}
+                    />
                   </div>
                 </div>
               </Form>
@@ -509,6 +575,7 @@ const PackLoading = () => {
             orderDetails={orderDetails}
             headers={headers}
             matchingItem={matchingItem}
+            start={start}
           />
         </div>
         <div className="col-12 col-lg-9">
@@ -517,6 +584,7 @@ const PackLoading = () => {
             headers={ricePackHeaders}
             showMainHeader={true}
             headerTitle="Rice Packs"
+            start={start}
           />
         </div>
       </div>
@@ -525,7 +593,10 @@ const PackLoading = () => {
           <h6 className="bg-light fw-bold p-2">Extra Items</h6>
         </div>
         <div className="col-12 col-lg-9">
-          <ExtraItemTableComponent warehouseId={warehouseId} deleveryId={deleveryId}/>
+          <ExtraItemTableComponent
+            warehouseId={warehouseId}
+            deliveryId={deliveryId}
+          />
           {/* <TableComponent
             orderDetails={extraItems}
             headers={ricePackHeaders}
@@ -542,7 +613,7 @@ const PackLoading = () => {
             }}
             validationSchema={extraItemsvalidationSchema}
             onSubmit={async (values, { setSubmitting, resetForm }) => {
-              if (!deleveryId) {
+              if (!deliveryId) {
                 toast.error("Please select a vehicle number");
                 return false;
               }
@@ -555,7 +626,7 @@ const PackLoading = () => {
                 },
               ];
               const formData = {
-                deliveryRouteId: deleveryId,
+                deliveryRouteId: deliveryId,
                 warehouseId,
                 products,
               };
@@ -570,7 +641,7 @@ const PackLoading = () => {
                   data: formData,
                 });
                 if (response) {
-                  await fetchExtraItems(deleveryId);
+                  await fetchExtraItems(deliveryId);
                   resetForm();
                 }
               } catch (error) {
@@ -666,8 +737,11 @@ const PackLoading = () => {
           <h6 className="bg-light fw-bold p-2">Outside Items</h6>
         </div>
         <div className="col-12 col-lg-9">
-          <OutsideItemTableComponent warehouseId={warehouseId} deleveryId={deleveryId}/>
-          </div>
+          <OutsideItemTableComponent
+            warehouseId={warehouseId}
+            deliveryId={deliveryId}
+          />
+        </div>
         {/* <div className="col-12 col-lg-9">
           <TableComponent
             orderDetails={outsideItems}
@@ -684,7 +758,7 @@ const PackLoading = () => {
             }}
             validationSchema={extraItemsvalidationSchema}
             onSubmit={async (values, { setSubmitting, resetForm }) => {
-              if (!deleveryId) {
+              if (!deliveryId) {
                 toast.error("Please select a vehicle number");
                 return false;
               }
@@ -702,14 +776,14 @@ const PackLoading = () => {
                   method: "POST",
                   url:
                     `${baseUrl}services/ecommerce/outsideItem/CreateOutsideItems?deliveryRouteId=` +
-                    deleveryId,
+                    deliveryId,
                   headers: {
                     "Content-Type": "application/json",
                   },
                   data: formData,
                 });
                 if (response) {
-                  await fetchOutsidedItems(deleveryId);
+                  await fetchOutsidedItems(deliveryId);
                   resetForm();
                 }
               } catch (error) {
@@ -794,4 +868,14 @@ const PackLoading = () => {
   );
 };
 
-export default PackLoading;
+const ProtectedSetPackLoadingPage = withAuth(SetPackLoadingPage);
+
+const PackLoadingPage = () => {
+  return (
+    <AuthProvider>
+      <ProtectedSetPackLoadingPage />
+    </AuthProvider>
+  );
+};
+
+export default PackLoadingPage;

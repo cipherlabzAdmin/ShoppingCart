@@ -3,7 +3,7 @@ const baseUrl = process?.env?.API_BASE_URL;
 
 const getItems = async ({ controller, id, route }) => {
   const formData = {
-    checkoutId: id,
+    checkoutId: parseInt(id),
     deliveryRouteId: route,
   };
 

@@ -10,6 +10,7 @@ import ApplyCoupon from "./ApplyCoupon";
 import PlaceOrder from "./PlaceOrder";
 
 const CheckoutSidebar = ({ values, setFieldValue, cId }) => {
+
   const [storeCoupon, setStoreCoupon] = useState();
   const [discount, setDiscount] = useState();
   const [checkoutData, setCheckoutData] = useState({

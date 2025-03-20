@@ -16,11 +16,12 @@ const SetHandoverPage = () => {
   const route = localStorage.getItem("route");
   const storedWarehouse = JSON.parse(localStorage.getItem("selectedWarehouse"));
 
+  
   const fetchOrderDetails = async (route) => {
     try {
       const postData = {
         warehouseId: storedWarehouse.id,
-        status: 8,
+        // status: 8,
         sortType: 1,
         skipCount: 0,
         maxResultCount: 100,
@@ -43,7 +44,7 @@ const SetHandoverPage = () => {
   useEffect(() => {
     const storedOrderDetails = localStorage.getItem("matchingOrders");
     fetchOrderDetails(route);
-  
+
     if (storedOrderDetails) {
       const parsedOrders = JSON.parse(storedOrderDetails);  
       setTimeout(() => {

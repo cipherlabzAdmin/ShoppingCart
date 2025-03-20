@@ -83,7 +83,18 @@ const createNumberIcon = (number) => {
 };
 
 const MapDirectionComponent = ({ start, endpoints, setOrder }) => {
-
+  // if (!endpoints || endpoints.length === 0) {
+  //   endpoints = [
+  //     {
+  //       lat: 7.084,
+  //       lng: 80.0098,
+  //       status: 6,
+  //       checkoutNo: "0000000",
+  //       isDisabled: false,
+  //     },
+  //   ];
+  // }
+  
   const [directions, setDirections] = useState(null);
   const [officeIcon, setOfficeIcon] = useState(null);
   const [hoveredMarker, setHoveredMarker] = useState(null);
@@ -150,6 +161,7 @@ const MapDirectionComponent = ({ start, endpoints, setOrder }) => {
       //console.log(distance / 1000);
     }
   }, [isLoaded]);
+
   useEffect(() => {
     if (isLoaded && endpoints.length > 0) {
       setOfficeIcon(createNumberIcon("S"));
@@ -176,6 +188,7 @@ const MapDirectionComponent = ({ start, endpoints, setOrder }) => {
       );
     }
   }, [isLoaded, start, endpoints]);
+  
 
   if (!isLoaded) return <div>Loading...</div>;
 
