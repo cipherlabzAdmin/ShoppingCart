@@ -7,6 +7,7 @@ import CustomModal from "./CustomModal";
 import { useRouter } from "next/navigation";
 import Cookies from "js-cookie";
 
+
 const ConfirmationModal = ({ modal, setModal, isLoading, confirmFunction }) => {
   const { i18Lang } = useContext(I18NextContext);
   const { t } = useTranslation(i18Lang, "common");
