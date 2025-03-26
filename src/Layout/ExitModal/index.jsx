@@ -8,6 +8,7 @@ import I18NextContext from "@/Helper/I18NextContext";
 import Logo from "../../../public/assets/images/logo/1.png";
 import Cookies from "js-cookie";
 
+
 const ExitModal = () => {
   const [showModal, setShowModal] = useState(false);
   const { i18Lang } = useContext(I18NextContext);

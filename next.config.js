@@ -46,7 +46,6 @@ module.exports = (phase) => {
     ],
   };
 
-
   return {
     env,
     redirects,
